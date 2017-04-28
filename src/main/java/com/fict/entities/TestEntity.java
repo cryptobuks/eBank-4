@@ -11,7 +11,7 @@ public class TestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
     private String firstname;
     private String lastname;
     private String password;
@@ -21,11 +21,11 @@ public class TestEntity {
     private String transaction_number;
     private float balance;
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

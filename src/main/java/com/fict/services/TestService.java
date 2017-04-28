@@ -7,6 +7,6 @@ import com.fict.entities.TestEntity;
  */
 public interface TestService {
 
-    TestEntity findTestEntityById(Long id);
+    TestEntity findTestEntityById(int id);
 
 }
