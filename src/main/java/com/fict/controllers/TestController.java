@@ -13,15 +13,14 @@ import com.fict.services.TestService;
  */
 @RestController
 public class TestController {
+	
+	@Autowired
+	private TestService service;
 
-    @Autowired
-    private TestService service;
-
-
-    @RequestMapping("/{id}")
-    public String sayHello(@PathVariable Long id) {
-	Customer customer = service.findTestEntityById(id);
-	return customer.getFirstName();
-    }
+	@RequestMapping("/{id}")
+	public String sayHello(@PathVariable Long id) {
+		Customer customer = service.findTestEntityById(id);
+		return customer.getFirstName();
+	}
     
 }
