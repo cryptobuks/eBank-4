@@ -8,4 +8,6 @@ import com.fict.entities.Creditor;
 @Repository
 public interface CreditorRepository extends CrudRepository<Creditor, Long> {
 
+    Creditor findCreditorById(Long id);
+
 }

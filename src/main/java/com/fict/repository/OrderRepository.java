@@ -1,5 +1,6 @@
 package com.fict.repository;
 
+import com.fict.entities.Creditor;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,4 +14,5 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 
 	List<Order> findOrdersByCustomer(Customer customer);
 	Order findOrderById(Long id);
+	List<Order> findOrdersByCreditor(Creditor creditor);
 }

@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonValue;
 
@@ -38,6 +39,7 @@ public class Customer implements Serializable {
 	private String lastName;
 
 	@Column(name = "password", nullable = false)
+	@JsonIgnore
 	private String password;
 
 	private String embg;

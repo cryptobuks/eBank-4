@@ -1,5 +1,6 @@
 package com.fict.services;
 
+import com.fict.entities.Creditor;
 import com.fict.entities.Customer;
 import com.fict.entities.Order;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface OrderService {
 
-    List<Order> findOrderByCustomer(Customer customer);
+    List<Order> findOrdersByCustomer(Customer customer);
     Order findOrderById(Long id);
-
+    List<Order> findOrdersByCreditor(Creditor creditor);
 }

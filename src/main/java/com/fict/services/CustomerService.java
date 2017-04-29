@@ -5,8 +5,8 @@ import com.fict.entities.Customer;
 /**
  * Created by stevo on 4/27/17.
  */
-public interface TestService {
+public interface CustomerService {
 
-	Customer findTestEntityById(Long id);
+	Customer findCustomerById(Long id);
 
 }

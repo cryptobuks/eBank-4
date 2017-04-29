@@ -1,5 +1,6 @@
 package com.fict.services;
 
+import com.fict.entities.Creditor;
 import com.fict.entities.Customer;
 import com.fict.entities.Order;
 import com.fict.repository.OrderRepository;
@@ -18,8 +19,13 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
 
     @Override
-    public List<Order> findOrderByCustomer(Customer customer) {
+    public List<Order> findOrdersByCustomer(Customer customer) {
         return orderRepository.findOrdersByCustomer(customer);
+    }
+
+    @Override
+    public List<Order> findOrdersByCreditor(Creditor creditor) {
+        return orderRepository.findOrdersByCreditor(creditor);
     }
 
     @Override

@@ -9,7 +9,7 @@ import com.fict.entities.Customer;
  * Created by stevo on 4/27/17.
  */
 @Repository
-public interface TestRepository extends CrudRepository<Customer, Long> {
+public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
 	Customer findCustomerById(Long id);
 
