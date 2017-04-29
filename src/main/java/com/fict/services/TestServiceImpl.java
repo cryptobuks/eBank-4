@@ -17,7 +17,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Customer findTestEntityById(Long id) {
-		return testRepository.findTestEntityById(id);
+	return testRepository.findTestEntityById(id);
     }
 
 }
