@@ -19,9 +19,9 @@ public class TestController {
 
 
     @RequestMapping("/{id}")
-	public String sayHello(@PathVariable Long id) {
-		Customer customer = service.findTestEntityById(id);
-		return customer.getFirstName();
+    public String sayHello(@PathVariable Long id) {
+	Customer customer = service.findTestEntityById(id);
+	return customer.getFirstName();
     }
     
 }
