@@ -11,13 +11,13 @@ import com.fict.repository.TestRepository;
  */
 @Service
 public class TestServiceImpl implements TestService {
+	
+	@Autowired
+	private TestRepository testRepository;
 
-    @Autowired
-    private TestRepository testRepository;
-
-    @Override
-    public Customer findTestEntityById(Long id) {
-	return testRepository.findTestEntityById(id);
-    }
+    	@Override
+    	public Customer findTestEntityById(Long id) {
+		return testRepository.findTestEntityById(id);
+	}
 
 }
