@@ -1,9 +1,10 @@
 package com.fict.services;
 
-import com.fict.entities.TestEntity;
-import com.fict.repository.TestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fict.entities.Customer;
+import com.fict.repository.TestRepository;
 
 /**
  * Created by stevo on 4/27/17.
@@ -14,8 +15,9 @@ public class TestServiceImpl implements TestService {
     @Autowired
     private TestRepository testRepository;
 
-    @Override
-    public TestEntity findTestEntityById(int id) {
-        return testRepository.findTestEntityById(id);
-    }
+	@Override
+	public Customer findTestEntityById(Long id) {
+		return testRepository.findTestEntityById(id);
+	}
+
 }

@@ -1,15 +1,16 @@
 package com.fict.repository;
 
-import com.fict.entities.TestEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
+
+import com.fict.entities.Customer;
 
 /**
  * Created by stevo on 4/27/17.
  */
 @Repository
-public interface TestRepository extends CrudRepository<TestEntity, Integer> {
+public interface TestRepository extends CrudRepository<Customer, Long> {
 
-    TestEntity findTestEntityById(int id);
+	Customer findTestEntityById(Long id);
 
 }

@@ -1,12 +1,12 @@
 package com.fict.services;
 
-import com.fict.entities.TestEntity;
+import com.fict.entities.Customer;
 
 /**
  * Created by stevo on 4/27/17.
  */
 public interface TestService {
 
-    TestEntity findTestEntityById(int id);
+	Customer findTestEntityById(Long id);
 
 }
