@@ -1,5 +1,6 @@
 package com.fict.controllers;
 
+import com.fict.entities.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +19,9 @@ public class TestController {
 	private TestService service;
 
 	@RequestMapping("/{id}")
-	public String sayHello(@PathVariable Long id) {
+	public Customer sayHello(@PathVariable Long id) {
 		Customer customer = service.findTestEntityById(id);
-		return customer.getFirstName();
+		return customer;
 	}
     
 }

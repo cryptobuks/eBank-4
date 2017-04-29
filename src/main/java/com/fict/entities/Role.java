@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -35,6 +36,7 @@ public class Role implements Serializable{
 		this.id = id;
 	}
 
+	@JsonValue
 	public String getName() {
 		return name;
 	}
