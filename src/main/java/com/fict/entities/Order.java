@@ -12,14 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@Table(name = "order")
+@Table(name = "order_details")
 public class Order implements Serializable {
 
 	private static final long serialVersionUID = 1893138537426046889L;
@@ -28,10 +26,10 @@ public class Order implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "date")
 	private Date date;
 
+	@Column(name = "amount")
 	private Double amount;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -41,6 +39,17 @@ public class Order implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "creditor_id", nullable = false)
 	private Creditor creditor;
+
+	@Column(name = "description")
+	private String description;
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
 	public Long getId() {
 		return id;
