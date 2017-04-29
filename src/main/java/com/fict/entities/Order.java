@@ -32,7 +32,7 @@ public class Order implements Serializable {
 	@Column(name = "date")
 	private Date date;
 
-	private double amount;
+	private Double amount;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id", nullable = false)
@@ -58,11 +58,11 @@ public class Order implements Serializable {
 		this.date = date;
 	}
 
-	public double getAmount() {
+	public Double getAmount() {
 		return amount;
 	}
 
-	public void setAmount(double amount) {
+	public void setAmount(Double amount) {
 		this.amount = amount;
 	}
 
