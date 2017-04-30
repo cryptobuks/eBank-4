@@ -40,7 +40,6 @@ public class Order implements Serializable {
 	@JoinColumn(name = "creditor_id", nullable = false)
 	private Creditor creditor;
 
-	@Column(name = "description")
 	private String description;
 
 	public String getDescription() {

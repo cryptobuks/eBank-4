@@ -14,10 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
@@ -38,7 +36,8 @@ public class Customer implements Serializable {
 	@Basic(optional = false)
 	private String lastName;
 
-	@Column(name = "password", nullable = false)
+	@Column(name = "password")
+	@Basic(optional = false)
 	@JsonIgnore
 	private String password;
 
@@ -46,6 +45,7 @@ public class Customer implements Serializable {
 
 	private String address;
 
+	@Basic(optional = false)
 	private String email;
 
 	@Column(name = "transaction_number")
@@ -57,6 +57,17 @@ public class Customer implements Serializable {
 	private Role role;
 	
 	private Double balance;
+
+	@Basic(optional = false)
+	private Boolean active;
+
+	public Boolean isActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
 
 	public Role getRole() {
 		return role;

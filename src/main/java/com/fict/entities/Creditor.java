@@ -29,7 +29,8 @@ public class Creditor implements Serializable {
 	@Basic(optional = false)
 	private String address;
 
-	@Column(name = "transaction_number", nullable = false)
+	@Column(name = "transaction_number")
+	@Basic(optional = false)
 	private String transactionNumber;
 
 	public Long getId() {

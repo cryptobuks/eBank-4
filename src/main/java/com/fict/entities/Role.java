@@ -3,7 +3,6 @@ package com.fict.entities;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,7 +24,6 @@ public class Role implements Serializable{
 	private Long id;
 
 	@Basic(optional = false)
-	@Column(name = "name")
 	private String name;
 
 	public Long getId() {
