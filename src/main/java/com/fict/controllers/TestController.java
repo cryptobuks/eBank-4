@@ -27,7 +27,7 @@ public class TestController {
 	private OrderService orderService;
 
 	@Autowired
-    private CreditorService creditorService;
+   	private CreditorService creditorService;
 
 	@RequestMapping("/customer/{id}")
 	public Customer getCustomer(@PathVariable Long id) {
@@ -40,9 +40,9 @@ public class TestController {
 	}
 
 	@RequestMapping("/creditor/{id}")
-    public Creditor getCreditor(@PathVariable Long id) {
-	    return creditorService.findCreditorById(id);
-    }
+    	public Creditor getCreditor(@PathVariable Long id) {
+		return creditorService.findCreditorById(id);
+    	}
 
 	@RequestMapping("/customer/order/{id}")
 	public List<Order> getOrders(@PathVariable Long id) {
@@ -51,9 +51,9 @@ public class TestController {
 	}
 
 	@RequestMapping("/creditor/order/{id}")
-    public List<Order> getOrdersByCreditor(@PathVariable Long id) {
-	    Creditor creditor = creditorService.findCreditorById(id);
-	    return orderService.findOrdersByCreditor(creditor);
-    }
+    	public List<Order> getOrdersByCreditor(@PathVariable Long id) {
+		Creditor creditor = creditorService.findCreditorById(id);
+		return orderService.findOrdersByCreditor(creditor);
+    	}
     
 }
