@@ -19,3 +19,7 @@
   + #### Admin
   + - [ ] Check/edit/disable customer
   + - [ ] Check/edit/cancel transactions
+
+
+## Web sketch
+![sketch](https://raw.githubusercontent.com/kondinskis/eBank/master/web_sketch.jpg)
