@@ -1,5 +1,6 @@
 package com.fict.controllers;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,16 @@ public class TestController {
 
 	@Autowired
    	private CreditorService creditorService;
+
+	@RequestMapping("/api/user")
+	public Principal test(Principal principal){
+		return principal;
+	}
+
+	@RequestMapping("/api/customer")
+    public Customer customerrrrr(Principal principal){
+	    return customerService.findCustomerByEmail(principal.getName());
+    }
 
 	@RequestMapping("/admin/customer/{id}")
 	public Customer getCustomer(@PathVariable Long id) {

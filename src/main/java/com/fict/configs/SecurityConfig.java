@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.savedrequest.NullRequestCache;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
@@ -70,13 +71,14 @@ public class SecurityConfig extends GlobalAuthenticationConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
 
             http
+                .httpBasic().and()
                 .authorizeRequests()
-                    .antMatchers("/resources/**", "/index.html").permitAll()
-                    .antMatchers("/admin/**").hasAuthority("ADMIN")
-                    .antMatchers("/**").hasAnyAuthority("NORMAL", "ADMIN")
-                    .anyRequest().authenticated().and().formLogin()
-                    .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                    .logoutSuccessUrl("/index.html").deleteCookies("JSESSIONID").invalidateHttpSession(true);
+                    .antMatchers("/resources/**", "/").permitAll()
+                    .antMatchers("/api/admin/**").hasAuthority("ADMIN")
+                    .antMatchers("/api/**").hasAnyAuthority("NORMAL", "ADMIN")
+                    .anyRequest().authenticated()
+                    .and()
+                .csrf().disable().logout().logoutUrl("/api/logout").logoutSuccessUrl("/").invalidateHttpSession(true);
 
         }
     }
