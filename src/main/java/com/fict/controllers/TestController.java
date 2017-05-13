@@ -29,7 +29,7 @@ public class TestController {
 	@Autowired
    	private CreditorService creditorService;
 
-	@RequestMapping("/customer/{id}")
+	@RequestMapping("/admin/customer/{id}")
 	public Customer getCustomer(@PathVariable Long id) {
 		return customerService.findCustomerById(id);
 	}
@@ -55,5 +55,5 @@ public class TestController {
 		Creditor creditor = creditorService.findCreditorById(id);
 		return orderService.findOrdersByCreditor(creditor);
    	}
-    
+
 }

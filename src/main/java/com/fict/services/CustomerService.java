@@ -8,5 +8,6 @@ import com.fict.entities.Customer;
 public interface CustomerService {
 
 	Customer findCustomerById(Long id);
+	Customer findCustomerByEmail(String email);
 
 }

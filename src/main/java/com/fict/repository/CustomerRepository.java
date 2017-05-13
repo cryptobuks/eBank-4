@@ -11,6 +11,9 @@ import com.fict.entities.Customer;
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
+
+	Customer findCustomerByEmail(String email);
+
 	Customer findCustomerById(Long id);
 
 }

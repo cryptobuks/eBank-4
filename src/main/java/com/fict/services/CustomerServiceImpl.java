@@ -18,4 +18,9 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer findCustomerById(Long id) {
         return customerRepository.findCustomerById(id);
     }
+
+    @Override
+    public Customer findCustomerByEmail(String email) {
+        return customerRepository.findCustomerByEmail(email);
+    }
 }

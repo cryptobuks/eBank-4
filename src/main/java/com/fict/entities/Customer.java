@@ -52,7 +52,7 @@ public class Customer implements Serializable {
 	@Basic(optional = false)
 	private String transactionNumber;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
 	
