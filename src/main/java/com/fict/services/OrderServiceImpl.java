@@ -3,6 +3,7 @@ package com.fict.services;
 import com.fict.entities.Creditor;
 import com.fict.entities.Customer;
 import com.fict.entities.Order;
+import com.fict.repository.CustomerRepository;
 import com.fict.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
     @Override
     public List<Order> findOrdersByCustomer(Customer customer) {
         return orderRepository.findOrdersByCustomer(customer);
@@ -26,6 +30,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> findOrdersByCreditor(Creditor creditor) {
         return orderRepository.findOrdersByCreditor(creditor);
+    }
+
+    @Override
+    public List<Order> findOrdersByCustomerEmail(String email) {
+        return orderRepository.findOrdersByCustomerEmail(email);
     }
 
     @Override

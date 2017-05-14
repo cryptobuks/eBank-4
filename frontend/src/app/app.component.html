@@ -1,0 +1,27 @@
+<!--
+<customer-detail [customer]="customer"></customer-detail>
+<hr />
+<creditor-detail></creditor-detail><hr />
+<order-detail></order-detail>
+<hr /> -->
+
+<!-- <button type="submit" (click)="logout()" [hidden]="!loggedIn">logout</button> -->
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">eBank</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li routerLinkActive="active"><a routerLink="/login">Login</a></li>
+      <li routerLinkActive="active"><a routerLink="/customer">Customer</a></li>
+      <li routerLinkActive="active"><a routerLink="/orders">Orders</a></li>
+      <li routerLinkActive="active"><a routerLink="/order/make">Make order</a></li>
+      <li routerLinkActive="active"><a href="/api/logout">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

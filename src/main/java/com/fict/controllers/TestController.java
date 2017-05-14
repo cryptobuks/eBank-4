@@ -40,6 +40,11 @@ public class TestController {
 	    return customerService.findCustomerByEmail(principal.getName());
     }
 
+    @RequestMapping("/api/orders")
+	public List<Order> orderss(Principal principal) {
+    	return orderService.findOrdersByCustomerEmail(principal.getName());
+	}
+
 	@RequestMapping("/admin/customer/{id}")
 	public Customer getCustomer(@PathVariable Long id) {
 		return customerService.findCustomerById(id);
