@@ -74,8 +74,8 @@ CREATE TABLE customer (
     lastname text,
     password text,
     embg character varying(13) NOT NULL,
-    address text NOT NULL,
-    email text,
+    address text,
+    email text NOT NULL,
     transaction_number character varying(16) NOT NULL,
     balance real
 );
