@@ -16,10 +16,11 @@ import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@Table(name = "customer", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" }) })
+@Table(name = "customer", uniqueConstraints = { @UniqueConstraint(columnNames = { "email" , "transaction_number"}) })
 public class Customer implements Serializable {
 
 	private static final long serialVersionUID = 5546139073765916126L;
@@ -38,7 +39,6 @@ public class Customer implements Serializable {
 
 	@Column(name = "password")
 	@Basic(optional = false)
-	@JsonIgnore
 	private String password;
 
 	private String embg;
@@ -100,11 +100,13 @@ public class Customer implements Serializable {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-
+	
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
-
+	
+	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}

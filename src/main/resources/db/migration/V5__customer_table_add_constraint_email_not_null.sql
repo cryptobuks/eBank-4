@@ -1,0 +1,5 @@
+ALTER TABLE customer
+ALTER COLUMN email SET NOT NULL;
+
+ALTER TABLE customer 
+ALTER COLUMN address DROP NOT NULL;

@@ -8,7 +8,9 @@ import com.fict.repository.CustomerRepository;
 import com.fict.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -46,16 +48,27 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findOrderById(id);
     }
 
-
     @Override
-    public Order placeOrder(Order order)
-    {
-        Customer customer = order.getCustomer();
-
-        customer.setBalance(customer.getBalance()-order.getAmount());
-        creditorRepository.save(order.getCreditor());
+    @Transactional
+    public Order saveOrder(Order order, Principal principal){
+    	
+        Customer customer = customerRepository.findCustomerByEmail(principal.getName());
+        Double customerBalance = customer.getBalance() - order.getAmount();
+        customer.setBalance(Math.max(customerBalance, 0.0));
         customerRepository.save(customer);
-        orderRepository.save(order);
-        return order;
+        
+        order.setCustomer(customer);
+        
+        String creditorTransactionNumber = order.getCreditor().getTransactionNumber();
+        
+        Creditor creditor =  creditorRepository.findCreditorByTransactionNumber(creditorTransactionNumber);
+        
+        if (creditor == null){
+        	creditor = creditorRepository.save(order.getCreditor());
+        }
+        
+        order.setCreditor(creditor);
+        
+        return orderRepository.save(order);
     }
 }

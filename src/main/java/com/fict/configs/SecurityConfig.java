@@ -77,11 +77,11 @@ public class SecurityConfig extends GlobalAuthenticationConfigurerAdapter {
                 .httpBasic().and()
                 .authorizeRequests()
                     .antMatchers("/resources/**", "/").permitAll()
-                    .antMatchers("/api/admin/**").hasAuthority("ADMIN")
-                    .antMatchers("/api/**").hasAnyAuthority("NORMAL", "ADMIN")
+                    .antMatchers("/admin/**").hasAuthority("ADMIN")
+                    .antMatchers("/**").hasAnyAuthority("NORMAL", "ADMIN")
                     .anyRequest().authenticated()
                     .and()
-                .csrf().disable().logout().logoutUrl("/api/logout").logoutSuccessUrl("/").invalidateHttpSession(true);
+                .csrf().disable().logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true);
 
         }
 

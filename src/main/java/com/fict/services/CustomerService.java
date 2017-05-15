@@ -1,5 +1,7 @@
 package com.fict.services;
 
+import org.springframework.security.core.Authentication;
+
 import com.fict.entities.Customer;
 
 /**
@@ -9,6 +11,10 @@ import com.fict.entities.Customer;
 public interface CustomerService {
 
 	Customer findCustomerById(Long id);
+	
 	Customer findCustomerByEmail(String email);
+	
+	Customer saveCustomer(Customer customer);
+	
 	Customer registerCustomer(Customer customer);
 }

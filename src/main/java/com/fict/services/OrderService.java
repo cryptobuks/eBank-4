@@ -4,6 +4,7 @@ import com.fict.entities.Creditor;
 import com.fict.entities.Customer;
 import com.fict.entities.Order;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -15,5 +16,5 @@ public interface OrderService {
     List<Order> findOrdersByCustomerEmail(String email);
     Order findOrderById(Long id);
     List<Order> findOrdersByCreditor(Creditor creditor);
-    Order placeOrder(Order order);
+    Order saveOrder(Order order, Principal principal);
 }

@@ -9,12 +9,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-@Table(name = "creditor")
+@Table(name = "creditor", uniqueConstraints = { @UniqueConstraint(columnNames = {"transaction_number"}) })
 public class Creditor implements Serializable {
 
 	private static final long serialVersionUID = 1159109307068508175L;
@@ -32,6 +33,18 @@ public class Creditor implements Serializable {
 	@Column(name = "transaction_number")
 	@Basic(optional = false)
 	private String transactionNumber;
+	
+	@Column(name = "ime_na_banka")
+	@Basic(optional = false)
+	private String imeNaBanka;
+	
+	public String getImeNaBanka() {
+		return imeNaBanka;
+	}
+
+	public void setImeNaBanka(String imeNaBanka) {
+		this.imeNaBanka = imeNaBanka;
+	}
 
 	public Long getId() {
 		return id;

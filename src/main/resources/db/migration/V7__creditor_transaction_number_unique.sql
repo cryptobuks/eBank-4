@@ -1,0 +1,2 @@
+ALTER TABLE creditor
+ADD CONSTRAINT creditor_unique_transaction_number UNIQUE (transaction_number);

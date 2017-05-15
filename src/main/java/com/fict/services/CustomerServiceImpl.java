@@ -3,21 +3,27 @@ package com.fict.services;
 import com.fict.entities.Customer;
 import com.fict.entities.Role;
 import com.fict.repository.CustomerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.fict.repository.RoleRepository;
 
-import javax.transaction.Transactional;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.hibernate.hql.internal.ast.tree.BooleanLiteralNode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by stevo on 4/30/17.
  */
 @Service
-@Transactional
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
-
+    
+    @Autowired
+    private RoleRepository roleRepository;
+    
     @Override
     public Customer findCustomerById(Long id) {
         return customerRepository.findCustomerById(id);
@@ -27,14 +33,26 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer findCustomerByEmail(String email) {
         return customerRepository.findCustomerByEmail(email);
     }
+    
+	@Override
+	@Transactional
+	public Customer registerCustomer(Customer customer) {
+		
+		Role role = roleRepository.findRoleByName("NORMAL");
+		
+		customer.setActive(Boolean.TRUE);
+		customer.setBalance(0.0);
+		customer.setRole(role);
+		String transactionNumber = RandomStringUtils.randomNumeric(16);
+		customer.setTransactionNumber(transactionNumber);
+		
+		return customerRepository.save(customer);
+	}
 
-    @Override
-    public Customer registerCustomer(Customer customer)
-    {
-        customer.setBalance(0.0);
-        customer.setActive(true);
-        customer.setRole(new Role(2L,"NORMAL"));
-        customerRepository.save(customer);
-        return customer;
-    }
+	@Override
+	@Transactional
+	public Customer saveCustomer(Customer customer) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

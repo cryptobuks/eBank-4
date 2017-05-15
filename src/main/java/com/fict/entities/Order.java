@@ -3,6 +3,7 @@ package com.fict.entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,8 +33,8 @@ public class Order implements Serializable {
 
 	@Column(name = "amount")
 	private Double amount;
-
-
+	
+	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "customer_id", nullable = false)
 	private Customer customer;
@@ -43,6 +44,18 @@ public class Order implements Serializable {
 	private Creditor creditor;
 
 	private String description;
+	
+	@Column(name = "type")
+	@Basic(optional = false)
+	private String type;
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
 
 	public String getDescription() {
 		return description;

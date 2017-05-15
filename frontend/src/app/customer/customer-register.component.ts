@@ -16,7 +16,6 @@ export class CustomerRegisterComponent {
 
   constructor(private customerService: CustomerService, private router: Router) {
     this.customer = new Customer();
-    this.customer.transactionNumber = "1234123412341234";
   }
 
   register() {

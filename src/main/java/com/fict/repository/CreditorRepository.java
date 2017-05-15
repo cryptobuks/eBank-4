@@ -9,5 +9,6 @@ import com.fict.entities.Creditor;
 public interface CreditorRepository extends CrudRepository<Creditor, Long> {
 
     Creditor findCreditorById(Long id);
-
+    
+    Creditor findCreditorByTransactionNumber(String transactionNumber);
 }
