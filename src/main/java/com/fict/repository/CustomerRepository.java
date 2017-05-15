@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import com.fict.entities.Customer;
 
+import javax.transaction.Transactional;
+
 /**
  * Created by stevo on 4/27/17.
  */

@@ -3,6 +3,7 @@ package com.fict.services;
 import com.fict.entities.Creditor;
 import com.fict.entities.Customer;
 import com.fict.entities.Order;
+import com.fict.repository.CreditorRepository;
 import com.fict.repository.CustomerRepository;
 import com.fict.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private CreditorRepository creditorRepository;
+
     @Override
     public List<Order> findOrdersByCustomer(Customer customer) {
         return orderRepository.findOrdersByCustomer(customer);
@@ -40,5 +44,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findOrderById(Long id) {
         return orderRepository.findOrderById(id);
+    }
+
+
+    @Override
+    public Order placeOrder(Order order)
+    {
+        Customer customer = order.getCustomer();
+
+        customer.setBalance(customer.getBalance()-order.getAmount());
+        creditorRepository.save(order.getCreditor());
+        customerRepository.save(customer);
+        orderRepository.save(order);
+        return order;
     }
 }

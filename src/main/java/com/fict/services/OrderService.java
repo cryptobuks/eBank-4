@@ -15,4 +15,5 @@ public interface OrderService {
     List<Order> findOrdersByCustomerEmail(String email);
     Order findOrderById(Long id);
     List<Order> findOrdersByCreditor(Creditor creditor);
+    Order placeOrder(Order order);
 }

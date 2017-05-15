@@ -15,6 +15,7 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -46,6 +47,8 @@ public class SecurityConfig extends GlobalAuthenticationConfigurerAdapter {
     public void init(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailService());
     }
+
+
 
     @Bean
     UserDetailsService userDetailService() {
@@ -81,6 +84,7 @@ public class SecurityConfig extends GlobalAuthenticationConfigurerAdapter {
                 .csrf().disable().logout().logoutUrl("/api/logout").logoutSuccessUrl("/").invalidateHttpSession(true);
 
         }
+
     }
 
 
