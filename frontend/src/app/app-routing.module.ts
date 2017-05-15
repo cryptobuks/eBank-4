@@ -5,16 +5,21 @@ import { CustomerDetailComponent } from './customer/customer-detail.component';
 import { LoginComponent } from './login.component';
 import { OrderDetailComponent } from './orders/order-detail.component';
 import { OrderMakeComponent } from './orders/order-make.component';
+import { CustomerRegisterComponent } from './customer/customer-register.component';
+import { AuthGuard } from './auth-guard.service';
+import { AuthService } from './auth.service';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'customer',  component: CustomerDetailComponent },
-  { path: 'orders', component: OrderDetailComponent },
-  { path: 'order/make', component: OrderMakeComponent }
+  { path: 'customer',  component: CustomerDetailComponent, canActivate: [AuthGuard] },
+  { path: 'order/history', component: OrderDetailComponent, canActivate: [AuthGuard] },
+  { path: 'order/make', component: OrderMakeComponent, canActivate: [AuthGuard] },
+  { path: 'register', component: CustomerRegisterComponent }
 ];
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  exports: [ RouterModule ],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule {}

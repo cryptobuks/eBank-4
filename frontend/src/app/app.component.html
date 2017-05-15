@@ -10,14 +10,15 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">eBank</a>
+      <a class="navbar-brand">eBank</a>
     </div>
     <ul class="nav navbar-nav">
-      <li routerLinkActive="active"><a routerLink="/login">Login</a></li>
-      <li routerLinkActive="active"><a routerLink="/customer">Customer</a></li>
-      <li routerLinkActive="active"><a routerLink="/orders">Orders</a></li>
-      <li routerLinkActive="active"><a routerLink="/order/make">Make order</a></li>
-      <li routerLinkActive="active"><a href="/api/logout">Logout</a></li>
+      <li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/customer">Customer</a></li>
+      <li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/order/history">Orders</a></li>
+      <li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/order/make">Make order</a></li>
+      <li routerLinkActive="active" *ngIf="!authService.isLoggedIn"><a routerLink="/login">Login</a></li>
+      <li routerLinkActive="active" *ngIf="!authService.isLoggedIn"><a routerLink="/register">Register</a></li>
+      <li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a href="/api/logout">Logout</a></li>
     </ul>
   </div>
 </nav>

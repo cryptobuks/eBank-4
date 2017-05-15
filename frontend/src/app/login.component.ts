@@ -15,14 +15,14 @@ import { AuthService } from './auth.service';
 export class LoginComponent implements OnInit {
 
   customer: Customer;
-  loggedIn: boolean;
+  credentials: Credentials;
 
   constructor(private http: Http, private router: Router, private authService: AuthService) {
-
+    this.credentials = new Credentials('', '');
   }
 
-  logIn(username: string, password: string) {
-    this.authService.logIn(username, password).subscribe(res => {
+  logIn() {
+    this.authService.logIn(this.credentials.username, this.credentials.password).subscribe(res => {
       this.router.navigate(['/customer']);
     }, err => {
       this.router.navigate(['/login']);
@@ -37,4 +37,18 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  logout() {
+    this.authService.logout();
+  }
+
+}
+
+class Credentials {
+
+  username: string;
+  password: string;
+
+  constructor(username: string, password: string) {
+
+  }
 }

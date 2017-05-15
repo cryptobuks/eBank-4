@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { CustomerDetailComponent } from './customer/customer-detail.component';
 import { OrderDetailComponent } from './orders/order-detail.component';
 import { CreditorDetailComponent } from './creditor/creditor-detail.component';
+import { CustomerRegisterComponent } from './customer/customer-register.component';
 import { LoginComponent } from './login.component';
 import { OrderMakeComponent } from './orders/order-make.component';
 
@@ -17,7 +18,7 @@ import { AuthService } from './auth.service';
 @NgModule({
   declarations: [
     AppComponent, CustomerDetailComponent, OrderDetailComponent, CreditorDetailComponent,
-    LoginComponent, OrderMakeComponent
+    LoginComponent, OrderMakeComponent, CustomerRegisterComponent
   ],
   imports: [
     BrowserModule,

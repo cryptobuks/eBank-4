@@ -10,6 +10,7 @@ import { Order } from './order';
 export class OrderService {
 
   private orderUrl = '/api/orders';
+  private makeOrderUrl = "/api/makeorder";
 
   constructor(private http: Http) {
 
@@ -19,6 +20,12 @@ export class OrderService {
     let headers = new Headers();
     headers.append('X-Requested-With', 'XMLHttpRequest');
     return this.http.get(this.orderUrl, {headers}).map(res => res.json());
+  }
+
+  makeOrder(order: Order): Observable<Order> {
+    let headers = new Headers();
+    headers.append('X-Requested-With', 'XMLHttpRequest');
+    return this.http.post(this.makeOrderUrl, order, {headers}).map(res => res.json());
   }
 
 }

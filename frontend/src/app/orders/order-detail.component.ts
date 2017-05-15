@@ -19,11 +19,7 @@ export class OrderDetailComponent implements OnInit {
   orders: Order[];
 
   constructor(private orderService: OrderService, private authService: AuthService, private router: Router) {
-    this.authService.isAuthenticated().subscribe(res => {
 
-    }, err => {
-      this.router.navigate(['/login']);
-    })
   }
 
   getOrders() {
@@ -33,7 +29,12 @@ export class OrderDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getOrders();
+    this.orderService.getOrders().subscribe(res => {
+      this.orders = res;
+    }, err => {
+      this.router.navigate(["/login"]);
+    });
+
   }
 
 }

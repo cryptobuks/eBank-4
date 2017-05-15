@@ -8,10 +8,10 @@ export class Customer {
   email: string;
   transactionNumber: string;
   balance: number;
+  password: string;
 
+  constructor() {
 
-  constructor(jsonObject: string) {
-    Object.assign(this, JSON.parse(jsonObject));
   }
 
 }

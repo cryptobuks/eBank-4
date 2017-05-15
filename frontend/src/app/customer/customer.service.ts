@@ -10,6 +10,7 @@ import { Customer } from './customer';
 export class CustomerService {
 
   private customerUrl = '/api/customer';
+  private registerCustomerUrl = "/api/customer/register";
 
   constructor(private http: Http) {
 
@@ -19,6 +20,12 @@ export class CustomerService {
     let headers = new Headers();
     headers.append('X-Requested-With', 'XMLHttpRequest');
     return this.http.get(this.customerUrl, {headers}).map(res => res.json());
+  }
+
+  registerCustomer(customer: Customer): Observable<Customer> {
+    let headers = new Headers();
+    headers.append('X-Requested-With', 'XMLHttpRequest');
+    return this.http.post(this.registerCustomerUrl, customer, {headers}).map(res => res.json());
   }
 
   // private extractData(res: Response) {

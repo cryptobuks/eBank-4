@@ -16,11 +16,7 @@ export class CustomerDetailComponent implements OnInit {
   @Input() customer: Customer;
 
   constructor(private customerService: CustomerService, private router: Router, private location: Location) {
-    this.customerService.getCustomer().subscribe(res => {
 
-    }, err => {
-      this.router.navigate(['/login']);
-    })
   }
 
   getCustomer(): void {
@@ -32,7 +28,11 @@ export class CustomerDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCustomer();
+    this.customerService.getCustomer().subscribe(res => {
+      this.customer = res;
+    }, err => {
+      this.router.navigate(['/login']);
+    });
   }
 
 }
