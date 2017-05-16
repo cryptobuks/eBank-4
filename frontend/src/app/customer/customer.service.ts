@@ -9,6 +9,8 @@ import { Customer } from './customer';
 @Injectable()
 export class CustomerService {
 
+  private customersUrl = '/api/admin/customers';
+
   private customerUrl = '/api/customer';
   private registerCustomerUrl = "/api/customer/register";
 
@@ -26,6 +28,12 @@ export class CustomerService {
     let headers = new Headers();
     headers.append('X-Requested-With', 'XMLHttpRequest');
     return this.http.post(this.registerCustomerUrl, customer, {headers}).map(res => res.json());
+  }
+
+  getCustomers(): Observable<Customer[]> {
+    let headers = new Headers();
+    headers.append('X-Requested-With', 'XMLHttpRequest');
+    return this.http.get(this.customersUrl, {headers}).map(res => res.json());
   }
 
   // private extractData(res: Response) {

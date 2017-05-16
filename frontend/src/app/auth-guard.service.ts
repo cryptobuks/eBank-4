@@ -9,12 +9,20 @@ export class AuthGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     let url: string = state.url;
-    console.log(this.checkLogin(url));
     return this.checkLogin(url);
   }
 
   checkLogin(url: string): boolean {
-    if (this.authService.isLoggedIn) { return true; }
+
+    if(this.authService.isLoggedIn) {
+      if(url.indexOf("admin") == 1) {
+        if(this.authService.role == "ADMIN") {
+          return true;
+        }
+      } else {
+        return true;
+      }
+    }
 
     this.authService.redirectUrl = url;
 

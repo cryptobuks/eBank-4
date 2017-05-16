@@ -1,0 +1,37 @@
+<div *ngIf="customers">
+
+
+    <!-- <creditor-detail [creditor]="order.creditor"></creditor-detail> <br />
+    Amount: {{order.amount}} <br />
+    Data: {{order.date | date: 'dd-MM-yyyy'}} <br />
+    Description: {{order.description}} -->
+
+    <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Balance</th>
+        <th>Email</th>
+        <th>EMBG</th>
+        <th>Active</th>
+        <th>transactionNumber</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of customers">
+        <td>{{customer.id}}</td>
+        <td>{{customer.firstName}}</td>
+        <td>{{customer.lastName}}</td>
+        <td>{{customer.balance}}</td>
+        <td>{{customer.email}}</td>
+        <td>{{customer.embg}}</td>
+        <td><input type="checkbox" [(ngModel)]="customer.active"/></td>
+        <td>{{customer.transactionNumber}}</td>
+        <button type="submit" class="btn btn-primary" (click)="editCustomer(customer)">Edit</button>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

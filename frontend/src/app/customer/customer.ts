@@ -9,6 +9,7 @@ export class Customer {
   transactionNumber: string;
   balance: number;
   password: string;
+  active: boolean;
 
   constructor() {
 

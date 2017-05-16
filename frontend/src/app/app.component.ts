@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.authService.isAuthenticated().subscribe(res => {
       this.authService.isLoggedIn = true;
+      this.authService.role = res.json().authorities[0].authority;
     }, err => {
       this.authService.isLoggedIn = false;
     });

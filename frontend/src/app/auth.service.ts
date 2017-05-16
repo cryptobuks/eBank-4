@@ -10,6 +10,7 @@ export class AuthService {
   redirectUrl = "/login";
   private authUrl = "/api/user";
   isLoggedIn: boolean = false;
+  role: string;
 
   constructor(private http: Http) {
 
@@ -20,8 +21,9 @@ export class AuthService {
     headers.append('Authorization', 'Basic ' + btoa(username + ':' + password));
     headers.append('X-Requested-With', 'XMLHttpRequest');
     return this.http.get(this.authUrl, {headers}).map(res => {
-      res.json();
+      let r = res.json();
       this.isLoggedIn = true;
+      this.role = r.authorities[0].authority;
     });
   }
 

@@ -76,7 +76,7 @@ public class SecurityConfig extends GlobalAuthenticationConfigurerAdapter {
             http
                 .httpBasic().and()
                 .authorizeRequests()
-                    .antMatchers("/resources/**", "/").permitAll()
+                    .antMatchers("/resources/**", "/", "/customer/register").permitAll()
                     .antMatchers("/admin/**").hasAuthority("ADMIN")
                     .antMatchers("/**").hasAnyAuthority("NORMAL", "ADMIN")
                     .anyRequest().authenticated()
