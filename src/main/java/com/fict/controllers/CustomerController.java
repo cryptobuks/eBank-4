@@ -51,5 +51,16 @@ public class CustomerController {
 		return customerService.registerCustomer(customer);
 	}
 	
-	
+	@RequestMapping("/admin/customers")
+	public List<Customer> getAllCustomers() {
+		return customerService.findAll();
+	}
+
+    @RequestMapping(value = "/admin/customer/edit",method = RequestMethod.POST)
+    public Customer editCustomer(@RequestBody Customer customer){
+	    return customerService.saveCustomer(customer);
+    }
+
+
 }
+

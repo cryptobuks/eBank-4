@@ -4,6 +4,8 @@ import org.springframework.security.core.Authentication;
 
 import com.fict.entities.Customer;
 
+import java.util.List;
+
 /**
  * Created by stevo on 4/27/17.
  */
@@ -11,10 +13,12 @@ import com.fict.entities.Customer;
 public interface CustomerService {
 
 	Customer findCustomerById(Long id);
-	
+
 	Customer findCustomerByEmail(String email);
-	
+
 	Customer saveCustomer(Customer customer);
-	
+
 	Customer registerCustomer(Customer customer);
+
+	List<Customer> findAll();
 }

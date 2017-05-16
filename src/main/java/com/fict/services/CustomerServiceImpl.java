@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by stevo on 4/30/17.
  */
@@ -52,7 +54,11 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	@Transactional
 	public Customer saveCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		return null;
+		return customerRepository.save(customer);
+	}
+
+	@Override
+	public List<Customer> findAll(){
+    	return customerRepository.findAll();
 	}
 }

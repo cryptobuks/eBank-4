@@ -5,3 +5,4 @@ src/test/java/com/fict/entities/
 src/test/java/com/fict/repository/
 src/test/java/com/fict/services/
 target/
+application.properties

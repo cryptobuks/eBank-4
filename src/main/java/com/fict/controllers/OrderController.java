@@ -51,4 +51,14 @@ public class OrderController {
 		Creditor creditor = creditorService.findCreditorById(id);
 		return orderService.findOrdersByCreditor(creditor);
    	}
+
+   	@RequestMapping("/admin/orders")
+	public List<Order> getAllOrders(){
+    	return orderService.findAll();
+	}
+
+	@RequestMapping(value = "/admin/order/edit",method = RequestMethod.POST)
+	public Order editOrder(@RequestBody Order order) {
+		return orderService.editOrder(order);
+	}
 }

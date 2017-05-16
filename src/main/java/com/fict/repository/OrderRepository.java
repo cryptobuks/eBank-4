@@ -13,7 +13,12 @@ import java.util.List;
 public interface OrderRepository extends CrudRepository<Order, Long> {
 
 	List<Order> findOrdersByCustomer(Customer customer);
+
 	List<Order> findOrdersByCustomerEmail(String email);
+
 	Order findOrderById(Long id);
+
 	List<Order> findOrdersByCreditor(Creditor creditor);
+
+	List<Order> findAll();
 }
