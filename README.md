@@ -5,16 +5,16 @@
   + #### Normal Customer
   + - [x] Login
   + - [x] Register
-  + - [ ] Balance
+  + - [x] Balance
   + - [ ] Inbox
   + - [x] Profile
   + - [x] Transactions
   + + - [x] Make
   + + - [ ] Receive
   + + - [x] History
-  + - [ ] Payments
+  + - [x] Payments
   + + - [ ] Bills
-  + + - [ ] PP30, PP50
+  + + - [x] PP30, PP50
   + - [ ] Currency conversion
   + #### Admin
   + - [ ] Check/edit/disable customer
