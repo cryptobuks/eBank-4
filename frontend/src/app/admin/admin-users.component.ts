@@ -11,6 +11,7 @@ import { CustomerService } from '../customer/customer.service';
 export class AdminUsersComponent implements OnInit {
 
   customers: Customer[];
+  selectedCustomer: Customer;
 
 
   constructor(private customerService: CustomerService) {
@@ -23,8 +24,14 @@ export class AdminUsersComponent implements OnInit {
     });
   }
 
+  setEditableCustomer(customer: Customer) {
+    this.selectedCustomer = customer;
+  }
+
   editCustomer(customer: Customer) {
-    console.log(customer);
+    this.customerService.editCustomer(customer).subscribe(res => {
+      console.log("edited");
+    });
   }
 
 }

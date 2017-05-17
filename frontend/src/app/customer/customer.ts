@@ -10,9 +10,15 @@ export class Customer {
   balance: number;
   password: string;
   active: boolean;
+  role: Role;
 
   constructor() {
 
   }
 
+}
+
+class Role {
+  id: number;
+  name: string;
 }

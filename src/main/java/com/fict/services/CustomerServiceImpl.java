@@ -54,6 +54,9 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	@Transactional
 	public Customer saveCustomer(Customer customer) {
+    	String roleName = customer.getRole().getName();
+    	Role role = roleRepository.findRoleByName(roleName);
+    	customer.setRole(role);
 		return customerRepository.save(customer);
 	}
 

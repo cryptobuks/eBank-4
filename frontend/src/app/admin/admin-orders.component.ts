@@ -12,6 +12,7 @@ import { OrderService } from '../orders/order.service';
 export class AdminOrdersComponent implements OnInit {
 
   orders: Order[];
+  selectedOrder: Order;
 
   constructor(private orderService: OrderService) {
 
@@ -23,8 +24,14 @@ export class AdminOrdersComponent implements OnInit {
     });
   }
 
+  setEditableOrder(order: Order) {
+    this.selectedOrder = order;
+  }
+
   editOrder(order: Order) {
-    console.log(order);
+    this.orderService.editOrder(order).subscribe(res => {
+      console.log(res);
+    })
   }
 
 }

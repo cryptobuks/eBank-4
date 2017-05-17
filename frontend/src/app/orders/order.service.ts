@@ -11,13 +11,7 @@ export class OrderService {
 
   private orderUrl = '/api/orders/user';
   private createOrderUrl = "/api/order/create";
-
-  // TODO:
-  // admin order edit
   private editOrderUrl = '/api/admin/order/edit';
-
-  // TODO:
-  // admin list all orders
   private adminOrdersUrl = '/api/admin/orders'
 
   // TODO:
@@ -43,6 +37,12 @@ export class OrderService {
     let headers = new Headers();
     headers.append('X-Requested-With', 'XMLHttpRequest');
     return this.http.get(this.adminOrdersUrl, {headers}).map(res => res.json());
+  }
+
+  editOrder(order: Order): Observable<Order> {
+    let headers = new Headers();
+    headers.append('X-Requested-With', 'XMLHttpRequest');
+      return this.http.put(this.editOrderUrl, order, {headers}).map(res => res.json());
   }
 
 

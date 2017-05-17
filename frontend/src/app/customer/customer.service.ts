@@ -13,9 +13,6 @@ export class CustomerService {
 
   private customerUrl = '/api/customer';
   private registerCustomerUrl = "/api/customer/register";
-
-  // TODO:
-  // customer edit
   private customerEditUrl = '/api/admin/customer/edit';
 
   constructor(private http: Http) {
@@ -40,15 +37,10 @@ export class CustomerService {
     return this.http.get(this.customersUrl, {headers}).map(res => res.json());
   }
 
-  // private extractData(res: Response) {
-  //   let body = res.json();
-  //   return body.data || { };
-  // }
-
-  // getCustomer() {
-  //   let headers = new Headers();
-  //   headers.append('X-Requested-With', 'XMLHttpRequest');
-  //   return this.http.get('/api/customer', {headers}).map(res => res.json());
-  // }
+  editCustomer(customer: Customer): Observable<Customer> {
+    let headers = new Headers();
+    headers.append('X-Requested-With', 'XMLHttpRequest');
+    return this.http.put(this.customerEditUrl, customer, {headers}).map(res => res.json());
+  }
 
 }

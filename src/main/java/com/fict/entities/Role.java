@@ -34,7 +34,6 @@ public class Role implements Serializable{
 		this.id = id;
 	}
 
-	@JsonValue
 	public String getName() {
 		return name;
 	}

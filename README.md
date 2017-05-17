@@ -17,8 +17,8 @@
   + + - [x] PP30, PP50
   + - [ ] Currency conversion
   + #### Admin
-  + - [ ] Check/edit/disable customer
-  + - [ ] Check/edit/cancel transactions
+  + - [x] Check/edit/disable customer
+  + - [x] Check/edit/cancel transactions
 
 
 ## Web sketch
