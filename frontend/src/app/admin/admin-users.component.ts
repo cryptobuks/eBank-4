@@ -4,11 +4,11 @@ import { Customer } from '../customer/customer';
 import { CustomerService } from '../customer/customer.service';
 
 @Component({
-  selector: 'admin-test',
-  templateUrl: './admin-test.component.html',
+  selector: 'admin-users',
+  templateUrl: './admin-users.component.html',
   providers: [CustomerService]
 })
-export class AdminTestComponent implements OnInit {
+export class AdminUsersComponent implements OnInit {
 
   customers: Customer[];
 

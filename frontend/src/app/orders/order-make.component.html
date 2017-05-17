@@ -13,12 +13,24 @@
     <input type="text" id="ctransactionnumber" class="form-control" name="order.creditor.transactionNumber"  [(ngModel)]="order.creditor.transactionNumber" />
   </div>
   <div class="form-group">
+    <label for="cbank">Creditor bank:</label>
+    <input type="text" id="cbank" class="form-control" name="order.creditor.imeNaBanka"  [(ngModel)]="order.creditor.imeNaBanka" />
+  </div>
+  <div class="form-group">
     <label for="date">Date:</label>
     <input type="text" id="date" name="order.date" class="form-control" [(ngModel)]="order.date" />
   </div>
   <div class="form-group">
     <label for="cname">Amount: </label>
     <input type="number" id="cname" name="order.amount"  class="form-control" [(ngModel)]="order.amount" />
+  </div>
+  <div class="form-group">
+    <label for="ctype">Type:</label>
+    <select id="ctype" class="form-control" name='order.type' [(ngModel)]='order.type'>
+      <option value="normal">Normal</option>
+      <option value="pp30">PP30</option>
+      <option value="pp50">PP50</option>
+    </select>
   </div>
   <div class="form-group">
     <label for="cname">Desription:</label>

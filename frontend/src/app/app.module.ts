@@ -15,12 +15,13 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AuthService } from './auth.service';
 
-import { AdminTestComponent } from './admin/admin-test.component';
+import { AdminUsersComponent } from './admin/admin-users.component';
+import { AdminOrdersComponent } from './admin/admin-orders.component';
 
 @NgModule({
   declarations: [
     AppComponent, CustomerDetailComponent, OrderDetailComponent, CreditorDetailComponent,
-    LoginComponent, OrderMakeComponent, CustomerRegisterComponent, AdminTestComponent
+    LoginComponent, OrderMakeComponent, CustomerRegisterComponent, AdminUsersComponent, AdminOrdersComponent
   ],
   imports: [
     BrowserModule,

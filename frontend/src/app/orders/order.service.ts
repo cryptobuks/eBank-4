@@ -9,8 +9,19 @@ import { Order } from './order';
 @Injectable()
 export class OrderService {
 
-  private orderUrl = '/api/orders';
-  private makeOrderUrl = "/api/makeorder";
+  private orderUrl = '/api/orders/user';
+  private createOrderUrl = "/api/order/create";
+
+  // TODO:
+  // admin order edit
+  private editOrderUrl = '/api/admin/order/edit';
+
+  // TODO:
+  // admin list all orders
+  private adminOrdersUrl = '/api/admin/orders'
+
+  // TODO:
+  // get orders by id
 
   constructor(private http: Http) {
 
@@ -25,7 +36,14 @@ export class OrderService {
   makeOrder(order: Order): Observable<Order> {
     let headers = new Headers();
     headers.append('X-Requested-With', 'XMLHttpRequest');
-    return this.http.post(this.makeOrderUrl, order, {headers}).map(res => res.json());
+    return this.http.post(this.createOrderUrl, order, {headers}).map(res => res.json());
   }
+
+  getAllOrders(): Observable<Order[]> {
+    let headers = new Headers();
+    headers.append('X-Requested-With', 'XMLHttpRequest');
+    return this.http.get(this.adminOrdersUrl, {headers}).map(res => res.json());
+  }
+
 
 }

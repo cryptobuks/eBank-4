@@ -4,9 +4,10 @@ export class Creditor {
   name: string;
   address: string;
   transactionNumber: string;
+  imeNaBanka: string;
 
   constructor() {
-    
+
   }
 
   //

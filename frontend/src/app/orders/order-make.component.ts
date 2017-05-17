@@ -25,6 +25,7 @@ export class OrderMakeComponent {
 
   try() {
     this.orderService.makeOrder(this.order).subscribe(res => {
+      console.log(this.order);
       this.router.navigate(["/order/history"]);
     }, err => {
       this.error = err.json().error;

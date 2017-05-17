@@ -1,0 +1,31 @@
+<div *ngIf="orders">
+
+  <table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Creditor name</th>
+      <th>Creditor address</th>
+      <th>Creditor transaction account</th>
+      <th>Creditor bank</th>
+      <th>Amount</th>
+      <th>Date</th>
+      <th>Description</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let order of orders">
+      <td>{{order.creditor.name}}</td>
+      <td>{{order.creditor.address}}</td>
+      <td>{{order.creditor.transactionNumber}}</td>
+      <td>{{order.creditor.imeNaBanka}}</td>
+      <td>{{order.amount}}</td>
+      <td>{{order.date | date: 'dd-MM-yyyy'}}</td>
+      <td>{{order.description}}</td>
+      <td>{{order.type}}</td>
+      <button type="submit" class="btn btn-primary" (click)="editOrder(order)">Edit</button>
+    </tr>
+  </tbody>
+  </table>
+
+</div>

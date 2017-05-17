@@ -29,6 +29,7 @@ export class AuthService {
 
   logout() {
     this.isLoggedIn = false;
+    return this.http.post("/api/logout", {});
   }
 
   private getUser() {

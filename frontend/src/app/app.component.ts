@@ -22,14 +22,17 @@ export class AppComponent implements OnInit {
   customer: Customer;
 
 
-
   constructor(private http: Http, private customerService: CustomerService, private router: Router,
      private authService: AuthService) {
 
   }
 
   logout() {
-    this.authService.logout();
+    this.authService.logout().subscribe(res => {
+      this.router.navigate(["/login"]);
+    }, err => {
+      console.log(err);
+    });
   }
 
   ngOnInit() {

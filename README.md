@@ -3,15 +3,15 @@
 
 ## Content
   + #### Normal Customer
-  + - [ ] Login
-  + - [ ] Register
+  + - [x] Login
+  + - [x] Register
   + - [ ] Balance
   + - [ ] Inbox
-  + - [ ] Profile
-  + - [ ] Transactions
-  + + - [ ] Make
+  + - [x] Profile
+  + - [x] Transactions
+  + + - [x] Make
   + + - [ ] Receive
-  + + - [ ] History
+  + + - [x] History
   + - [ ] Payments
   + + - [ ] Bills
   + + - [ ] PP30, PP50

@@ -14,6 +14,10 @@ export class CustomerService {
   private customerUrl = '/api/customer';
   private registerCustomerUrl = "/api/customer/register";
 
+  // TODO:
+  // customer edit
+  private customerEditUrl = '/api/admin/customer/edit';
+
   constructor(private http: Http) {
 
   }

@@ -9,6 +9,7 @@ export class Order {
   customer: Customer;
   creditor: Creditor;
   description: string;
+  type: string;
 
   constructor(){
     this.creditor = new Creditor();

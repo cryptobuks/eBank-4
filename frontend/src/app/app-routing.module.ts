@@ -9,7 +9,8 @@ import { CustomerRegisterComponent } from './customer/customer-register.componen
 import { AuthGuard } from './auth-guard.service';
 import { AuthService } from './auth.service';
 
-import { AdminTestComponent } from './admin/admin-test.component';
+import { AdminUsersComponent } from './admin/admin-users.component';
+import { AdminOrdersComponent } from './admin/admin-orders.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -18,7 +19,8 @@ const routes: Routes = [
   { path: 'order/history', component: OrderDetailComponent, canActivate: [AuthGuard] },
   { path: 'order/make', component: OrderMakeComponent, canActivate: [AuthGuard] },
   { path: 'register', component: CustomerRegisterComponent },
-  { path: 'admin/test', component: AdminTestComponent, canActivate: [AuthGuard] }
+  { path: 'admin/users', component: AdminUsersComponent, canActivate: [AuthGuard] },
+  { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard] }
 ];
 @NgModule({
   imports: [ RouterModule.forRoot(routes) ],
