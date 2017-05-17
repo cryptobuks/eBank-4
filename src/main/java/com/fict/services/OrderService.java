@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface OrderService {
 
-    List<Order> findOrdersByCustomer(Customer customer);
+    List<Order> findOrdersByUser(Principal principal);
 
     List<Order> findOrdersByCustomerEmail(String email);
 

@@ -20,44 +20,33 @@ import com.fict.services.OrderService;
 
 @RestController
 public class OrderController {
-	
-	@Autowired
-	private CustomerService customerService;
 
 	@Autowired
 	private OrderService orderService;
-
-	@Autowired
-   	private CreditorService creditorService;
+	
+	
 	
 	@RequestMapping(value = "/order/create", method = RequestMethod.POST)
     public Order saveOrder(@RequestBody Order order, Principal principal){
         return orderService.saveOrder(order, principal);
     }
 	
-	@RequestMapping("/order/{id}")
+	@RequestMapping("/orders/user")
+	public List<Order> getOrdersByUser(Principal principal) {
+		return orderService.findOrdersByUser(principal);
+	}
+	
+	@RequestMapping("admin/order/{id}")
 	public Order getOrder(@PathVariable Long id) {
 		return orderService.findOrderById(id);
 	}
-	
-	@RequestMapping("/customer/order/{id}")
-	public List<Order> getOrders(@PathVariable Long id) {
-		Customer customer = customerService.findCustomerById(id);
-		return orderService.findOrdersByCustomer(customer);
-	}
-	
-	@RequestMapping("/creditor/order/{id}")
-    public List<Order> getOrdersByCreditor(@PathVariable Long id) {
-		Creditor creditor = creditorService.findCreditorById(id);
-		return orderService.findOrdersByCreditor(creditor);
-   	}
 
    	@RequestMapping("/admin/orders")
 	public List<Order> getAllOrders(){
     	return orderService.findAll();
 	}
 
-	@RequestMapping(value = "/admin/order/edit",method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/order/edit", method = RequestMethod.PUT)
 	public Order editOrder(@RequestBody Order order) {
 		return orderService.editOrder(order);
 	}

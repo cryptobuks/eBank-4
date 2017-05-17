@@ -19,6 +19,5 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
 	Order findOrderById(Long id);
 
 	List<Order> findOrdersByCreditor(Creditor creditor);
-
-	List<Order> findAll();
+	
 }

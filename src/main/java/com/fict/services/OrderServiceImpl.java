@@ -29,7 +29,8 @@ public class OrderServiceImpl implements OrderService {
     private CreditorRepository creditorRepository;
 
     @Override
-    public List<Order> findOrdersByCustomer(Customer customer) {
+    public List<Order> findOrdersByUser(Principal principal) {
+    	Customer customer = customerRepository.findCustomerByEmail(principal.getName());
         return orderRepository.findOrdersByCustomer(customer);
     }
 
@@ -74,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> findAll(){
-        return orderRepository.findAll();
+        return (List<Order>) orderRepository.findAll();
     }
 
     @Override

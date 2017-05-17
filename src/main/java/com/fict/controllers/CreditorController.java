@@ -14,13 +14,6 @@ import com.fict.services.OrderService;
 
 @RestController
 public class CreditorController {
-	
-	
-	@Autowired
-	private CustomerService customerService;
-
-	@Autowired
-	private OrderService orderService;
 
 	@Autowired
    	private CreditorService creditorService;

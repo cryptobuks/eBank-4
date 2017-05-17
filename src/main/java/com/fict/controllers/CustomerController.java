@@ -24,16 +24,10 @@ public class CustomerController {
 	
 	@Autowired
 	private CustomerService customerService;
-
-	@Autowired
-	private OrderService orderService;
-
-	@Autowired
-   	private CreditorService creditorService;
 	
-	@RequestMapping("/admin/customer/{id}")
-	public Customer getCustomer(@PathVariable Long id) {
-		return customerService.findCustomerById(id);
+	@RequestMapping("/user")
+	public Principal test(Principal principal){
+		return principal;
 	}
 	
 	@RequestMapping("/customer")
@@ -41,14 +35,14 @@ public class CustomerController {
 	    return customerService.findCustomerByEmail(principal.getName());
     }
 	
-	@RequestMapping("/user")
-	public Principal test(Principal principal){
-		return principal;
-	}
-	
 	@RequestMapping(value = "/customer/register", method = RequestMethod.POST)
 	public Customer registerCustomer(@RequestBody Customer customer){
 		return customerService.registerCustomer(customer);
+	}
+	
+	@RequestMapping("/admin/customer/{id}")
+	public Customer getCustomer(@PathVariable Long id) {
+		return customerService.findCustomerById(id);
 	}
 	
 	@RequestMapping("/admin/customers")
@@ -56,7 +50,7 @@ public class CustomerController {
 		return customerService.findAll();
 	}
 
-    @RequestMapping(value = "/admin/customer/edit",method = RequestMethod.POST)
+    @RequestMapping(value = "/admin/customer/edit", method = RequestMethod.PUT)
     public Customer editCustomer(@RequestBody Customer customer){
 	    return customerService.saveCustomer(customer);
     }
