@@ -10,6 +10,9 @@ import org.hibernate.hql.internal.ast.tree.BooleanLiteralNode;
 import org.javamoney.moneta.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,8 +93,10 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public List<Customer> findAll(){
-    	return (List<Customer>) customerRepository.findAll();
+	public Page<Customer> findAll(int pageNumber, int limit){
+		PageRequest request = new PageRequest(pageNumber-1,limit, Sort.Direction.ASC,"id");
+
+		return customerRepository.findAll(request);
 	}
 
 	@Override

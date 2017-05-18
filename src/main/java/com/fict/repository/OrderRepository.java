@@ -21,5 +21,6 @@ public interface OrderRepository extends PagingAndSortingRepository<Order, Long>
 	Order findOrderById(Long id);
 
 	List<Order> findOrdersByCreditor(Creditor creditor);
-	
+
+
 }

@@ -1,6 +1,7 @@
 package com.fict.repository;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import com.fict.entities.Customer;
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by stevo on 4/27/17.
  */
 @Repository
-public interface CustomerRepository extends CrudRepository<Customer, Long> {
+public interface CustomerRepository extends PagingAndSortingRepository<Customer, Long> {
 
 
 	Customer findCustomerByEmail(String email);

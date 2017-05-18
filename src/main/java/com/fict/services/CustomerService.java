@@ -1,5 +1,6 @@
 package com.fict.services;
 
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 
 import com.fict.entities.Customer;
@@ -20,7 +21,7 @@ public interface CustomerService {
 
 	Customer registerCustomer(Customer customer);
 
-	List<Customer> findAll();
+	Page<Customer> findAll(int pageNumber,int limit);
 	
 	Double convertCurrency(String first, String second , Double value);
 }

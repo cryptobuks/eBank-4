@@ -36,11 +36,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CreditorRepository creditorRepository;
 
-   /* @Override
-    public List<Order> findOrdersByUser(Principal principal) {
-    	Customer customer = customerRepository.findCustomerByEmail(principal.getName());
-        return orderRepository.findOrdersByCustomer(customer);
-    }*/
 
     @Override
     public List<Order> findOrdersByCreditor(Creditor creditor) {
@@ -109,8 +104,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findAll(){
-        return (List<Order>) orderRepository.findAll();
+    public Page<Order> findAll(int pageNumber,int limit){
+        PageRequest request = new PageRequest(pageNumber-1,limit, Sort.Direction.DESC,"date");
+
+        return orderRepository.findAll(request);
     }
     
     private void mapOrder(Order order, Order toSaveOrder){
@@ -135,11 +132,11 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> findOrdersByUser(int pageNumber, int limit, Principal principal){
+    public Page<Order> findOrdersByUser(int pageNumber, int limit, Principal principal){
         PageRequest request = new PageRequest(pageNumber-1,limit, Sort.Direction.DESC,"date");
         Customer customer = customerRepository.findCustomerByEmail(principal.getName());
 
-        return orderRepository.findOrdersByCustomer(customer,request).getContent();
+        return orderRepository.findOrdersByCustomer(customer,request);
 
     }
 }
