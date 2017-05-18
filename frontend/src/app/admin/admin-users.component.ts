@@ -12,7 +12,7 @@ export class AdminUsersComponent implements OnInit {
 
   customers: Customer[];
   selectedCustomer: Customer;
-
+  error: string;
 
   constructor(private customerService: CustomerService) {
 
@@ -31,6 +31,9 @@ export class AdminUsersComponent implements OnInit {
   editCustomer(customer: Customer) {
     this.customerService.editCustomer(customer).subscribe(res => {
       console.log("edited");
+  }, err => {
+      this.error = err.json().error;
+      console.log(err.json());
     });
   }
 

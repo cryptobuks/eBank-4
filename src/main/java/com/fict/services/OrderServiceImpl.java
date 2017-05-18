@@ -7,10 +7,12 @@ import com.fict.repository.CreditorRepository;
 import com.fict.repository.CustomerRepository;
 import com.fict.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -68,7 +70,19 @@ public class OrderServiceImpl implements OrderService {
         	creditor = creditorRepository.save(order.getCreditor());
         }
         
+        if (creditor.getImeNaBanka() != null && creditor.getImeNaBanka().equals("EBANK")){
+        	
+        	Customer recipient = customerRepository.
+        			findCustomerByTransactionNumber(creditor.getTransactionNumber());
+        	
+        	Double recipientBalance = recipient.getBalance() + order.getAmount();
+        	recipient.setBalance(recipientBalance);
+        	customerRepository.save(recipient);
+        }
+        
         order.setCreditor(creditor);
+        
+        order.setDate(new Date(System.currentTimeMillis()));
         
         return orderRepository.save(order);
     }
@@ -81,6 +95,15 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public Order editOrder(Order order){
+    	
+    	String transactionNumber = order.getCreditor().getTransactionNumber();
+    	
+    	Creditor creditorValidation = creditorRepository.findCreditorByTransactionNumber(transactionNumber);
+    	
+    	if (creditorValidation != null && !creditorValidation.equals(order.getCreditor())){
+    		throw new DataIntegrityViolationException("Transaction Number is already taken.");
+    	}
+    	
         return orderRepository.save(order);
     }
 }

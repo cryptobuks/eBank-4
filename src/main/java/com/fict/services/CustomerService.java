@@ -21,4 +21,6 @@ public interface CustomerService {
 	Customer registerCustomer(Customer customer);
 
 	List<Customer> findAll();
+	
+	Double convertCurrency(String first, String second , Double value);
 }

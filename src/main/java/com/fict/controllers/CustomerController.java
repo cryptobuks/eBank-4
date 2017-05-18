@@ -54,6 +54,13 @@ public class CustomerController {
     public Customer editCustomer(@RequestBody Customer customer){
 	    return customerService.saveCustomer(customer);
     }
+    
+    @RequestMapping(value = "/customer/currency/{first}/{second}/{value}")
+    public Double getCurrencyConverted(@PathVariable("first") String first, 
+    		@PathVariable("second") String second, @PathVariable("value") Double value){
+    	
+    	return customerService.convertCurrency(first, second, value);
+    }
 
 
 }
