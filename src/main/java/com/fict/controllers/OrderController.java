@@ -5,11 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.fict.entities.Creditor;
 import com.fict.entities.Customer;
@@ -32,8 +28,10 @@ public class OrderController {
     }
 	
 	@RequestMapping("/orders/user")
-	public List<Order> getOrdersByUser(Principal principal) {
-		return orderService.findOrdersByUser(principal);
+	public List<Order> getOrdersByUser(@RequestParam(name = "p", defaultValue = "1") int pageNumber,
+                                       @RequestParam(name = "l") int limit, Principal principal) {
+
+		return orderService.findOrdersByUser(pageNumber,limit,principal);
 	}
 	
 	@RequestMapping("admin/order/{id}")

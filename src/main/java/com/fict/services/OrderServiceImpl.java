@@ -8,6 +8,9 @@ import com.fict.repository.CustomerRepository;
 import com.fict.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,11 +36,11 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CreditorRepository creditorRepository;
 
-    @Override
+   /* @Override
     public List<Order> findOrdersByUser(Principal principal) {
     	Customer customer = customerRepository.findCustomerByEmail(principal.getName());
         return orderRepository.findOrdersByCustomer(customer);
-    }
+    }*/
 
     @Override
     public List<Order> findOrdersByCreditor(Creditor creditor) {
@@ -129,5 +132,14 @@ public class OrderServiceImpl implements OrderService {
     	mapOrder(order, toSaveOrder);
         
     	return orderRepository.save(toSaveOrder);
+    }
+
+    @Override
+    public List<Order> findOrdersByUser(int pageNumber, int limit, Principal principal){
+        PageRequest request = new PageRequest(pageNumber-1,limit, Sort.Direction.DESC,"date");
+        Customer customer = customerRepository.findCustomerByEmail(principal.getName());
+
+        return orderRepository.findOrdersByCustomer(customer,request).getContent();
+
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface OrderService {
 
-    List<Order> findOrdersByUser(Principal principal);
+    List<Order> findOrdersByUser(int pageNumber, int limit, Principal principal);
 
     List<Order> findOrdersByCustomerEmail(String email);
 
@@ -25,4 +25,5 @@ public interface OrderService {
     List<Order> findAll();
 
     Order editOrder(Order order);
+
 }
