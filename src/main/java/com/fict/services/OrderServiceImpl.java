@@ -59,8 +59,11 @@ public class OrderServiceImpl implements OrderService {
     public Order saveOrder(Order order, Principal principal){
     	
         Customer customer = customerRepository.findCustomerByEmail(principal.getName());
+        if(customer.getBalance() < order.getAmount()) {
+            throw new DataIntegrityViolationException("Not enough cash!");
+        }
         Double customerBalance = customer.getBalance() - order.getAmount();
-        customer.setBalance(Math.max(customerBalance, 0.0));
+        customer.setBalance(customerBalance);
         customerRepository.save(customer);
         
         order.setCustomer(customer);
@@ -74,10 +77,10 @@ public class OrderServiceImpl implements OrderService {
         }
 
         if (creditor.getImeNaBanka() != null && creditor.getImeNaBanka().equals("EBANK")){
-        	
+
         	Customer recipient = customerRepository.
         			findCustomerByTransactionNumber(creditor.getTransactionNumber());
-        	
+
         	Double recipientBalance = recipient.getBalance() + order.getAmount();
         	recipient.setBalance(recipientBalance); 
         	

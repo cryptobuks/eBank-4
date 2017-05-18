@@ -28,7 +28,7 @@ export class OrderMakeComponent {
       console.log(this.order);
       this.router.navigate(["/order/history"]);
     }, err => {
-      this.error = err.json().error;
+      this.error = err.json().message;
       console.log(err.json());
     });
   }

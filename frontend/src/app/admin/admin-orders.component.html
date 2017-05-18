@@ -20,7 +20,7 @@
       <td>{{order.creditor.transactionNumber}}</td>
       <td>{{order.creditor.imeNaBanka}}</td>
       <td>{{order.amount}}</td>
-      <td>{{order.date | date: 'dd-MM-yyyy'}}</td>
+      <td>{{order.date | date: 'dd-MM-yyyy HH:mm'}}</td>
       <td>{{order.description}}</td>
       <td>{{order.type}}</td>
       <button type="button" data-toggle="modal" data-target="#orderModal" class="btn btn-primary" (click)="setEditableOrder(order)">Edit</button>
@@ -62,7 +62,7 @@
 
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" (click)="editOrder(selectedOrder)">Edit</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="editOrder(selectedOrder)">Edit</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>

@@ -1,28 +1,28 @@
-<form>
-  <p *ngIf="error">{{error}}</p>
+<form #orderMakeForm="ngForm" (ngSubmit)="try()">
+
   <div class="form-group">
     <label for="cname">Creditor name:</label>
     <input type="text" id="cname" name="order.creditor.name" class="form-control" [(ngModel)]="order.creditor.name" required/>
   </div>
   <div class="form-group">
     <label for="caddress">Creditor address:</label>
-    <input type="text" id="caddress" class="form-control" name="order.creditor.address"  [(ngModel)]="order.creditor.address" />
+    <input type="text" id="caddress" class="form-control" name="order.creditor.address"  [(ngModel)]="order.creditor.address" required/>
   </div>
   <div class="form-group">
     <label for="ctransactionnumber">Creditor transaction number:</label>
-    <input type="text" id="ctransactionnumber" class="form-control" name="order.creditor.transactionNumber"  [(ngModel)]="order.creditor.transactionNumber" />
+    <input maxlength="16" pattern=".{16,}" type="text" id="ctransactionnumber" class="form-control" name="order.creditor.transactionNumber"  [(ngModel)]="order.creditor.transactionNumber" required/>
   </div>
   <div class="form-group">
     <label for="cbank">Creditor bank:</label>
-    <input type="text" id="cbank" class="form-control" name="order.creditor.imeNaBanka"  [(ngModel)]="order.creditor.imeNaBanka" />
+    <input type="text" id="cbank" class="form-control" name="order.creditor.imeNaBanka"  [(ngModel)]="order.creditor.imeNaBanka" required/>
   </div>
   <div class="form-group">
     <label for="cname">Amount: </label>
-    <input type="number" id="cname" name="order.amount"  class="form-control" [(ngModel)]="order.amount" />
+    <input type="number" id="cname" name="order.amount"  class="form-control" [(ngModel)]="order.amount" required/>
   </div>
   <div class="form-group">
     <label for="ctype">Type:</label>
-    <select id="ctype" class="form-control" name='order.type' [(ngModel)]='order.type'>
+    <select id="ctype" class="form-control" name='order.type' [(ngModel)]='order.type' required>
       <option value="normal">Normal</option>
       <option value="pp30">PP30</option>
       <option value="pp50">PP50</option>
@@ -30,7 +30,10 @@
   </div>
   <div class="form-group">
     <label for="cname">Desription:</label>
-    <input type="text" id="cname" class="form-control" name="order.description" [(ngModel)]="order.description" />
+    <input type="text" id="cname" class="form-control" name="order.description" [(ngModel)]="order.description" required/>
   </div>
-  <button (click)="try()" class="btn btn-primary">Make</button>
+  <div *ngIf="error" class="alert alert-danger">
+    {{error}}
+  </div>
+  <button type="submit" class="btn btn-primary" [disabled]="!orderMakeForm.form.valid">Make</button>
 </form>
