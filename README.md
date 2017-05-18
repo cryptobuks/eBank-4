@@ -10,7 +10,7 @@
   + - [x] Profile
   + - [x] Transactions
   + + - [x] Make
-  + + - [ ] Receive
+  + + - [x] Receive
   + + - [x] History
   + - [x] Payments
   + + - [ ] Bills
