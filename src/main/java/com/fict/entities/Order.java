@@ -30,7 +30,8 @@ public class Order implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
+	@Temporal(TemporalType.TIMESTAMP) 
 	@Column(name = "date")
 	private Date date;
 

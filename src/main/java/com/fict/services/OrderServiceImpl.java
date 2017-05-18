@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -69,20 +72,32 @@ public class OrderServiceImpl implements OrderService {
         if (creditor == null){
         	creditor = creditorRepository.save(order.getCreditor());
         }
-        
+
         if (creditor.getImeNaBanka() != null && creditor.getImeNaBanka().equals("EBANK")){
         	
         	Customer recipient = customerRepository.
         			findCustomerByTransactionNumber(creditor.getTransactionNumber());
         	
         	Double recipientBalance = recipient.getBalance() + order.getAmount();
-        	recipient.setBalance(recipientBalance);
+        	recipient.setBalance(recipientBalance); 
+        	
         	customerRepository.save(recipient);
         }
         
         order.setCreditor(creditor);
         
-        order.setDate(new Date(System.currentTimeMillis()));
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        
+        String formattedDate = formatter.format(date);
+        
+        try {
+			date = formatter.parse(formattedDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+        
+        order.setDate(date);
         
         return orderRepository.save(order);
     }
@@ -91,19 +106,25 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findAll(){
         return (List<Order>) orderRepository.findAll();
     }
-
+    
+    private void mapOrder(Order order, Order toSaveOrder){
+    	
+    	toSaveOrder.setAmount(order.getAmount());
+    	toSaveOrder.setDescription(order.getDescription());
+    	
+    	Creditor orderCreditor = creditorRepository.save(order.getCreditor());
+    	toSaveOrder.setCreditor(orderCreditor);
+    	
+    }
+    
     @Override
     @Transactional
-    public Order editOrder(Order order){
+    public Order editOrder(Order order){   
     	
-    	String transactionNumber = order.getCreditor().getTransactionNumber();
+    	Order toSaveOrder = orderRepository.findOrderById(order.getId());
     	
-    	Creditor creditorValidation = creditorRepository.findCreditorByTransactionNumber(transactionNumber);
-    	
-    	if (creditorValidation != null && !creditorValidation.equals(order.getCreditor())){
-    		throw new DataIntegrityViolationException("Transaction Number is already taken.");
-    	}
-    	
-        return orderRepository.save(order);
+    	mapOrder(order, toSaveOrder);
+        
+    	return orderRepository.save(toSaveOrder);
     }
 }

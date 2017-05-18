@@ -65,22 +65,16 @@ public class CustomerServiceImpl implements CustomerService {
 		return customerRepository.save(customer);
 	}
 	
-	private void mapCustomer(Customer customer, Customer savedCustomer){
-		
-    	Customer checkValidCustomer = customerRepository.findCustomerByEmail(customer.getEmail());
-    	
-    	if (checkValidCustomer != null && !checkValidCustomer.equals(savedCustomer)){
-    		throw new DataIntegrityViolationException("Email is already taken.");
-    	}
+	private void mapCustomer(Customer customer, Customer toSaveCustomer){
     	
     	String roleName = customer.getRole().getName();
     	Role role = roleRepository.findRoleByName(roleName);
     	
-    	savedCustomer.setRole(role);
-		savedCustomer.setActive(customer.isActive());
-		savedCustomer.setFirstName(customer.getFirstName());
-		savedCustomer.setLastName(customer.getLastName());
-		savedCustomer.setEmail(customer.getEmail());
+    	toSaveCustomer.setRole(role);
+    	toSaveCustomer.setActive(customer.isActive());
+    	toSaveCustomer.setFirstName(customer.getFirstName());
+    	toSaveCustomer.setLastName(customer.getLastName());
+		toSaveCustomer.setEmail(customer.getEmail());
 		
 	}
 
@@ -88,11 +82,11 @@ public class CustomerServiceImpl implements CustomerService {
 	@Transactional
 	public Customer saveCustomer(Customer customer) {
 		
-		Customer savedCustomer = customerRepository.findCustomerById(customer.getId());
+		Customer toSaveCustomer = customerRepository.findCustomerById(customer.getId());
 		
-    	mapCustomer(customer, savedCustomer);
+    	mapCustomer(customer, toSaveCustomer);
     	
-		return customerRepository.save(savedCustomer);
+		return customerRepository.save(toSaveCustomer);
 	}
 
 	@Override
@@ -108,9 +102,9 @@ public class CustomerServiceImpl implements CustomerService {
 		CurrencyConversion conversion = MonetaryConversions
                 .getConversion(second);
 		
-		MonetaryAmount convertedAmountUSD = amount.with(conversion);
+		MonetaryAmount convertedAmount = amount.with(conversion);
 		
-		Double result = convertedAmountUSD.getNumber().doubleValue();
+		Double result = convertedAmount.getNumber().doubleValue();
 		
 		return result;
 	}
