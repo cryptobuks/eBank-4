@@ -18,10 +18,14 @@ import { AuthService } from './auth.service';
 import { AdminUsersComponent } from './admin/admin-users.component';
 import { AdminOrdersComponent } from './admin/admin-orders.component';
 
+import { CurrencyComponent } from './currency/currency.component';
+
 @NgModule({
   declarations: [
-    AppComponent, CustomerDetailComponent, OrderDetailComponent, CreditorDetailComponent,
-    LoginComponent, OrderMakeComponent, CustomerRegisterComponent, AdminUsersComponent, AdminOrdersComponent
+    AppComponent, CustomerDetailComponent, OrderDetailComponent,
+    CreditorDetailComponent, LoginComponent, OrderMakeComponent,
+    CustomerRegisterComponent, AdminUsersComponent, AdminOrdersComponent,
+    CurrencyComponent
   ],
   imports: [
     BrowserModule,

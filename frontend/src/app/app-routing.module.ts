@@ -12,12 +12,15 @@ import { AuthService } from './auth.service';
 import { AdminUsersComponent } from './admin/admin-users.component';
 import { AdminOrdersComponent } from './admin/admin-orders.component';
 
+import { CurrencyComponent } from './currency/currency.component';
+
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'customer',  component: CustomerDetailComponent, canActivate: [AuthGuard] },
   { path: 'order/history', component: OrderDetailComponent, canActivate: [AuthGuard] },
   { path: 'order/make', component: OrderMakeComponent, canActivate: [AuthGuard] },
+  { path: 'currency', component: CurrencyComponent, canActivate: [AuthGuard] },
   { path: 'register', component: CustomerRegisterComponent },
   { path: 'admin/users', component: AdminUsersComponent, canActivate: [AuthGuard] },
   { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuard] }
