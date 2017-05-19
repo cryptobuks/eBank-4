@@ -23,7 +23,7 @@ public interface OrderService {
 
     Order saveOrder(Order order, Principal principal);
 
-    Page<Order> findAll(int pageNumber,int limit);
+    Page<Order> findAll(int pageNumber, int limit);
 
     Order editOrder(Order order);
 

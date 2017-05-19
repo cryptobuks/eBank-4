@@ -51,22 +51,27 @@ public class OrderServiceImpl implements OrderService {
     public Order findOrderById(Long id) {
         return orderRepository.findOrderById(id);
     }
-
-    @Override
-    @Transactional
-    public Order saveOrder(Order order, Principal principal){
+    
+    private void setCustomer(Order order, Principal principal){
     	
-        Customer customer = customerRepository.findCustomerByEmail(principal.getName());
+    	Customer customer = customerRepository.findCustomerByEmail(principal.getName());
+    	
         if(customer.getBalance() < order.getAmount()) {
             throw new DataIntegrityViolationException("Not enough cash!");
         }
+        
         Double customerBalance = customer.getBalance() - order.getAmount();
         customer.setBalance(customerBalance);
+        
         customerRepository.save(customer);
         
         order.setCustomer(customer);
         
-        String creditorTransactionNumber = order.getCreditor().getTransactionNumber();
+    }
+    
+	private void setCreditor(Order order){
+		
+		String creditorTransactionNumber = order.getCreditor().getTransactionNumber();
         
         Creditor creditor =  creditorRepository.findCreditorByTransactionNumber(creditorTransactionNumber);
         
@@ -87,7 +92,11 @@ public class OrderServiceImpl implements OrderService {
         
         order.setCreditor(creditor);
         
-        Date date = new Date();
+	}
+    
+    private void setDate(Order order){
+    	
+    	Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         
         String formattedDate = formatter.format(date);
@@ -99,13 +108,26 @@ public class OrderServiceImpl implements OrderService {
 		}
         
         order.setDate(date);
+    	
+    }
+    
+    @Override
+    @Transactional
+    public Order saveOrder(Order order, Principal principal){
+    	
+        setCustomer(order, principal);
+        
+        setCreditor(order);
+        
+        setDate(order);
         
         return orderRepository.save(order);
     }
 
     @Override
-    public Page<Order> findAll(int pageNumber,int limit){
-        PageRequest request = new PageRequest(pageNumber-1,limit, Sort.Direction.DESC,"date");
+    public Page<Order> findAll(int pageNumber, int limit){
+    	
+        PageRequest request = new PageRequest(pageNumber - 1, limit, Sort.Direction.DESC, "id");
 
         return orderRepository.findAll(request);
     }
@@ -133,10 +155,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> findOrdersByUser(int pageNumber, int limit, Principal principal){
-        PageRequest request = new PageRequest(pageNumber-1,limit, Sort.Direction.DESC,"date");
+    	
+        PageRequest request = new PageRequest(pageNumber - 1, limit, Sort.Direction.DESC, "id");
+        
         Customer customer = customerRepository.findCustomerByEmail(principal.getName());
 
-        return orderRepository.findOrdersByCustomer(customer,request);
+        return orderRepository.findOrdersByCustomer(customer, request);
 
     }
 }

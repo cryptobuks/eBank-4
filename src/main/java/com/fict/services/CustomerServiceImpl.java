@@ -17,9 +17,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
+import javax.money.CurrencyQuery;
+import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
+import javax.money.MonetaryCurrencies;
 import javax.money.convert.CurrencyConversion;
 import javax.money.convert.MonetaryConversions;
 
@@ -94,23 +100,40 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Override
 	public Page<Customer> findAll(int pageNumber, int limit){
-		PageRequest request = new PageRequest(pageNumber-1,limit, Sort.Direction.ASC,"id");
+		
+		PageRequest request = new PageRequest(pageNumber - 1, limit, Sort.Direction.ASC, "id");
 
 		return customerRepository.findAll(request);
 	}
-
+	
 	@Override
 	public Double convertCurrency(String first, String second, Double value) {
 		
-		MonetaryAmount amount = Money.of(value, first);
+		MonetaryAmount amount = Money.of(value, MonetaryCurrencies.getCurrency(first));
 		
-		CurrencyConversion conversion = MonetaryConversions
-                .getConversion(second);
+		CurrencyConversion conversion = MonetaryConversions.
+				getConversion(MonetaryCurrencies.getCurrency(second));
 		
 		MonetaryAmount convertedAmount = amount.with(conversion);
 		
 		Double result = convertedAmount.getNumber().doubleValue();
 		
 		return result;
+	}
+
+	@Override
+	public List<CurrencyUnit> getCurrencies() {
+		
+		List<CurrencyUnit> currrencies = new ArrayList<>();
+		
+		currrencies.add(MonetaryCurrencies.getCurrency(Locale.CANADA));
+		currrencies.add(MonetaryCurrencies.getCurrency(Locale.US));
+		currrencies.add(MonetaryCurrencies.getCurrency(Locale.UK));
+		currrencies.add(MonetaryCurrencies.getCurrency(Locale.JAPAN));
+		currrencies.add(MonetaryCurrencies.getCurrency(Locale.GERMANY));
+		
+		System.out.println(MonetaryCurrencies.getCurrencies().size());
+		
+		return currrencies;
 	}
 }

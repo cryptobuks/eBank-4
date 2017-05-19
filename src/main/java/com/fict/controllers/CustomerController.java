@@ -2,7 +2,10 @@ package com.fict.controllers;
 
 import java.security.Principal;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+
+import javax.money.CurrencyUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,36 +32,46 @@ public class CustomerController {
 	
 	@RequestMapping("/customer")
     public Customer getAuthenticatedCustomer(Principal principal){
+		
 	    return customerService.findCustomerByEmail(principal.getName());
     }
 	
 	@RequestMapping(value = "/customer/register", method = RequestMethod.POST)
 	public Customer registerCustomer(@RequestBody Customer customer){
+		
 		return customerService.registerCustomer(customer);
 	}
 	
 	@RequestMapping("/admin/customer/{id}")
 	public Customer getCustomer(@PathVariable Long id) {
+		
 		return customerService.findCustomerById(id);
 	}
 	
 	@RequestMapping("/admin/customers")
 	public Page<Customer> getAllCustomers(@RequestParam(name = "p", defaultValue = "1") int pageNumber,
-                                          @RequestParam(name = "l", defaultValue = "5") int limit) {
+			@RequestParam(name = "l", defaultValue = "5") int limit) {
 
-		return customerService.findAll(pageNumber,limit);
+		return customerService.findAll(pageNumber, limit);
 	}
 
     @RequestMapping(value = "/admin/customer/edit", method = RequestMethod.PUT)
     public Customer editCustomer(@RequestBody Customer customer){
+    	
 	    return customerService.saveCustomer(customer);
     }
     
-    @RequestMapping(value = "/customer/currency/{first}/{second}/{value}")
+    @RequestMapping(value = "/currency/{first}/{second}/{value}")
     public Double getConvertedCurrencyValue(@PathVariable("first") String first, 
     		@PathVariable("second") String second, @PathVariable("value") Double value){
     	
     	return customerService.convertCurrency(first, second, value);
+    }
+    
+    @RequestMapping(value = "/currencies")
+    public List<CurrencyUnit> getCurrencies(){
+    	
+    	return customerService.getCurrencies();
     }
 
 
