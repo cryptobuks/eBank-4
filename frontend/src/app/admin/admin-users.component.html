@@ -35,7 +35,9 @@
       </tr>
     </tbody>
   </table>
-
+  <ul *ngIf="totalPages" class="pagination">
+    <li *ngFor="let p of totalPages" [ngClass]="{'active': page == p}"><a (click)="setPage(p)">{{p}}</a></li>
+  </ul>
 </div>
 
 <div *ngIf="selectedCustomer">

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
+import { Http, Headers, RequestOptions, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -21,10 +21,14 @@ export class OrderService {
 
   }
 
-  getOrders(): Observable<Order[]> {
+  getOrders(page: number, limit: number) {
     let headers = new Headers();
     headers.append('X-Requested-With', 'XMLHttpRequest');
-    return this.http.get(this.orderUrl, {headers}).map(res => res.json());
+    let params = new URLSearchParams();
+    params.append("p", page.toString());
+    params.append("l", limit.toString());
+
+    return this.http.get(this.orderUrl, { headers, params}).map(res => res.json());
   }
 
   makeOrder(order: Order): Observable<Order> {
@@ -33,10 +37,13 @@ export class OrderService {
     return this.http.post(this.createOrderUrl, order, {headers}).map(res => res.json());
   }
 
-  getAllOrders(): Observable<Order[]> {
+  getAllOrders(page: number, limit: number) {
     let headers = new Headers();
     headers.append('X-Requested-With', 'XMLHttpRequest');
-    return this.http.get(this.adminOrdersUrl, {headers}).map(res => res.json());
+    let params = new URLSearchParams();
+    params.append("p", page.toString());
+    params.append("l", limit.toString());
+    return this.http.get(this.adminOrdersUrl, {headers, params}).map(res => res.json());
   }
 
   editOrder(order: Order): Observable<Order> {

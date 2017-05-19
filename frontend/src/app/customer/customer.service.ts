@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Headers, Response, URLSearchParams } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
@@ -31,10 +31,13 @@ export class CustomerService {
     return this.http.post(this.registerCustomerUrl, customer, {headers}).map(res => res.json());
   }
 
-  getCustomers(): Observable<Customer[]> {
+  getCustomers(page: number, limit: number) {
     let headers = new Headers();
     headers.append('X-Requested-With', 'XMLHttpRequest');
-    return this.http.get(this.customersUrl, {headers}).map(res => res.json());
+    let params = new URLSearchParams();
+    params.append("p", page.toString());
+    params.append("l", limit.toString());
+    return this.http.get(this.customersUrl, {headers, params}).map(res => res.json());
   }
 
   editCustomer(customer: Customer): Observable<Customer> {

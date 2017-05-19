@@ -14,13 +14,20 @@ export class AdminOrdersComponent implements OnInit {
   orders: Order[];
   selectedOrder: Order;
 
-  constructor(private orderService: OrderService) {
+  limit: number;
+  page: number;
 
+  totalPages: number[];
+
+  constructor(private orderService: OrderService) {
+    this.limit = 3;
+    this.page = 1;
   }
 
   ngOnInit() {
-    this.orderService.getAllOrders().subscribe(res => {
-      this.orders = res;
+    this.orderService.getAllOrders(this.page, this.limit).subscribe(res => {
+      this.orders = res.content;
+      this.totalPages = Array(res.totalPages).fill(0).map((x, i) => i+1);
     });
   }
 
@@ -31,6 +38,13 @@ export class AdminOrdersComponent implements OnInit {
   editOrder(order: Order) {
     this.orderService.editOrder(order).subscribe(res => {
       console.log(res);
+    })
+  }
+
+  setPage(page: number) {
+    this.page = page;
+    this.orderService.getAllOrders(page, this.limit).subscribe(res => {
+      this.orders = res.content;
     })
   }
 
