@@ -15,7 +15,7 @@
   + - [x] Payments
   + + - [ ] Bills
   + + - [x] PP30, PP50
-  + - [ ] Currency conversion
+  + - [x] Currency conversion
   + #### Admin
   + - [x] Check/edit/disable customer
   + - [x] Check/edit/cancel transactions
