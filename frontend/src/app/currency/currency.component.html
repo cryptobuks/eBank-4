@@ -9,7 +9,7 @@
       </div>
 
       <div class="col-xs-2">
-        <select [(ngModel)]="from" name="from" class="form-control input-sm">
+        <select [(ngModel)]="from" (change)="convert()" name="from" class="form-control input-sm">
           <option *ngFor="let currency of currencies">{{currency}}</option>
         </select>
       </div>
@@ -23,7 +23,7 @@
         <input type="number" [(ngModel)]="converted" name="converted" class="form-control input-sm" />
       </div>
       <div class="col-xs-2">
-        <select [(ngModel)]="to" name="to" class="form-control input-sm">
+        <select [(ngModel)]="to" name="to" (change)="convert()" class="form-control input-sm">
           <option *ngFor="let currency of currencies">{{currency}}</option>
         </select>
       </div>

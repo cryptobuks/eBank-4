@@ -27,7 +27,7 @@ public interface CustomerService {
 
 	Page<Customer> findAll(int pageNumber, int limit);
 	
-	Double convertCurrency(String first, String second , Double value);
+	Double convertCurrency(String from, String to, Double value);
 	
 	List<CurrencyUnit> getCurrencies();
 }

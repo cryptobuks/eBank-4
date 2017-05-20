@@ -107,12 +107,12 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 	
 	@Override
-	public Double convertCurrency(String first, String second, Double value) {
+	public Double convertCurrency(String from, String to, Double value) {
 		
-		MonetaryAmount amount = Money.of(value, MonetaryCurrencies.getCurrency(first));
+		MonetaryAmount amount = Money.of(value, MonetaryCurrencies.getCurrency(from));
 		
 		CurrencyConversion conversion = MonetaryConversions.
-				getConversion(MonetaryCurrencies.getCurrency(second));
+				getConversion(MonetaryCurrencies.getCurrency(to));
 		
 		MonetaryAmount convertedAmount = amount.with(conversion);
 		
@@ -131,8 +131,6 @@ public class CustomerServiceImpl implements CustomerService {
 		currrencies.add(MonetaryCurrencies.getCurrency(Locale.UK));
 		currrencies.add(MonetaryCurrencies.getCurrency(Locale.JAPAN));
 		currrencies.add(MonetaryCurrencies.getCurrency(Locale.GERMANY));
-		
-		System.out.println(MonetaryCurrencies.getCurrencies().size());
 		
 		return currrencies;
 	}

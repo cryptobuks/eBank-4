@@ -61,11 +61,11 @@ public class CustomerController {
 	    return customerService.saveCustomer(customer);
     }
     
-    @RequestMapping(value = "/currency/{first}/{second}/{value}")
-    public Double getConvertedCurrencyValue(@PathVariable("first") String first, 
-    		@PathVariable("second") String second, @PathVariable("value") Double value){
+    @RequestMapping(value = "/currency/{from}/{to}/{value}")
+    public Double getConvertedCurrencyValue(@PathVariable("from") String from, 
+    		@PathVariable("to") String to, @PathVariable("value") Double value){
     	
-    	return customerService.convertCurrency(first, second, value);
+    	return customerService.convertCurrency(from, to, value);
     }
     
     @RequestMapping(value = "/currencies")
