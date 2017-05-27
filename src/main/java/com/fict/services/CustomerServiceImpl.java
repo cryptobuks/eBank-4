@@ -50,11 +50,20 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer findCustomerByEmail(String email) {
         return customerRepository.findCustomerByEmail(email);
     }
-    
+
+    @Override
+    public Customer findCustomerByEmbg(String embg) { return customerRepository.findCustomerByEmbg(embg); }
+
+
 	@Override
 	@Transactional
 	public Customer registerCustomer(Customer customer) {
-		
+
+        if(customerRepository.findCustomerByEmbg(customer.getEmbg())!=null)
+        {
+            throw new DataIntegrityViolationException("EMBG in use!");
+        }
+
 		Role role = roleRepository.findRoleByName("NORMAL");
 		
 		customer.setActive(Boolean.TRUE);
@@ -73,7 +82,7 @@ public class CustomerServiceImpl implements CustomerService {
 		
 		return customerRepository.save(customer);
 	}
-	
+
 	private void mapCustomer(Customer customer, Customer toSaveCustomer){
     	
     	String roleName = customer.getRole().getName();

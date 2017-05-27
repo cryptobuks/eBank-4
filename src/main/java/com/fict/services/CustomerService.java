@@ -25,6 +25,8 @@ public interface CustomerService {
 
 	Customer registerCustomer(Customer customer);
 
+	Customer findCustomerByEmbg(String embg);
+
 	Page<Customer> findAll(int pageNumber, int limit);
 	
 	Double convertCurrency(String from, String to, Double value);

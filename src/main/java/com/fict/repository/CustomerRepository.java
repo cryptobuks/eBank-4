@@ -22,4 +22,6 @@ public interface CustomerRepository extends PagingAndSortingRepository<Customer,
 	
 	Customer findCustomerByTransactionNumber(String transactionNumber);
 
+	Customer findCustomerByEmbg(String embg);
+
 }
