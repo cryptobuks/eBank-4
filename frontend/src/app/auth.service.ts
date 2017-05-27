@@ -16,7 +16,7 @@ export class AuthService {
 
   }
 
-  logIn(username: string, password: string) {
+  logIn(username: string, password: string){
     let headers = new Headers();
     headers.append('Authorization', 'Basic ' + btoa(username + ':' + password));
     headers.append('X-Requested-With', 'XMLHttpRequest');
@@ -24,7 +24,9 @@ export class AuthService {
       let r = res.json();
       this.isLoggedIn = true;
       this.role = r.authorities[0].authority;
-    });
+    }, err => {
+			console.log(err);
+		});
   }
 
   logout() {

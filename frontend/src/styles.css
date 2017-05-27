@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+.pointer {
+	cursor: pointer;
+}
+
+.boxed {
+	padding: 20px;
+	box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.2);
+}

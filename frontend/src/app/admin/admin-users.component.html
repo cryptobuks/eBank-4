@@ -1,43 +1,61 @@
 <div *ngIf="customers">
 
 
-    <!-- <creditor-detail [creditor]="order.creditor"></creditor-detail> <br />
-    Amount: {{order.amount}} <br />
-    Data: {{order.date | date: 'dd-MM-yyyy'}} <br />
-    Description: {{order.description}} -->
+		<div class="allUsers">
+			<div class="row">
+				<div class="col-sm-2 mobile">
+					<label>Firstname:</label>
+				</div>
+				<div class="col-sm-2 mobile">
+					<label>Lastname:</label>
+				</div>
+				<div class="col-sm-2 mobile">
+					<label>EMBG:</label>
+				</div>
+				<div class="col-sm-2 mobile">
+					<label>Transaction number:</label>
+				</div>
+				<div class="col-sm-2 mobile">
+					<label>Role:</label>
+				</div>
+				<div class="col-sm-2 mobile">
+					<label>Active:</label>
+				</div>
+			</div>
+			<div *ngFor="let customer of customers" class="row pointer" data-toggle="modal" data-target="#customerModal"(click)='setEditableCustomer(customer)'>
+				<div class="col-sm-2">
+					<label>Firstname:</label>
+					{{customer.firstName}}
+				</div>
+				<div class="col-sm-2">
+					<label>Lastname:</label>
+					{{customer.lastName}}
+				</div>
+				<div class="col-sm-2">
+					<label>EMBG:</label>
+					{{customer.embg}}
+				</div>
+				<div class="col-sm-2">
+					<label>Transaction number:</label>
+					{{customer.transactionNumber}}
+				</div>
+				<div class="col-sm-2">
+					<label>Role:</label>
+					{{customer.role.name}}
+				</div>
+				<div class="col-sm-2">
+					<label>Active:</label>
+					{{customer.active ? 'YES' : 'NO'}}
+				</div>
+				<hr />
+			</div>
+		</div>
 
-    <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Balance</th>
-        <th>Email</th>
-        <th>EMBG</th>
-        <th>Active</th>
-        <th>transactionNumber</th>
-        <th>Role</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let customer of customers">
-        <td>{{customer.id}}</td>
-        <td>{{customer.firstName}}</td>
-        <td>{{customer.lastName}}</td>
-        <td>{{customer.balance}}</td>
-        <td>{{customer.email}}</td>
-        <td>{{customer.embg}}</td>
-        <td><input type="checkbox" [(ngModel)]="customer.active"/></td>
-        <td>{{customer.transactionNumber}}</td>
-        <td>{{customer.role.name}}</td>
-        <button type="button" data-toggle="modal" data-target="#customerModal" class="btn btn-primary" (click)="setEditableCustomer(customer)">Edit</button>
-      </tr>
-    </tbody>
-  </table>
-  <ul *ngIf="totalPages" class="pagination">
-    <li *ngFor="let p of totalPages" [ngClass]="{'active': page == p}"><a (click)="setPage(p)">{{p}}</a></li>
-  </ul>
+	<div class="text-center">
+		<ul *ngIf="totalPages" class="pagination">
+			<li *ngFor="let p of totalPages" [ngClass]="{'active': page == p}"><a class="pointer" (click)="setPage(p)">{{p}}</a></li>
+		</ul>
+	</div>
 </div>
 
 <div *ngIf="selectedCustomer">
@@ -62,6 +80,18 @@
             <input type="text" class="form-control" name="selectedCustomer.email" [(ngModel)]="selectedCustomer.email" />
           </div>
           <div class="form-group">
+            <label for="customerbalance">Customer balance:</label>
+            <input type="text" class="form-control" disabled name="selectedCustomer.balance" [(ngModel)]="selectedCustomer.balance" />
+          </div>
+          <div class="form-group">
+            <label for="customerembg">Customer embg:</label>
+            <input type="text" class="form-control" disabled name="selectedCustomer.embg" [(ngModel)]="selectedCustomer.embg" />
+          </div>
+          <div class="form-group">
+            <label for="customertrans">Customer transaction number:</label>
+            <input type="text" class="form-control" disabled name="selectedCustomer.transactionNumber" [(ngModel)]="selectedCustomer.transactionNumber" />
+          </div>
+          <div class="form-group">
             <label for="customeractive">Active:</label>
             <input type="checkbox" class="form-control" name="selectedCustomer.active" [(ngModel)]="selectedCustomer.active" />
           </div>
@@ -74,7 +104,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="editCustomer(selectedCustomer)">Edit</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)="editCustomer(selectedCustomer)">Edit</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>

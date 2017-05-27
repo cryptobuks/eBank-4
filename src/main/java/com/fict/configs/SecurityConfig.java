@@ -57,7 +57,7 @@ public class SecurityConfig extends GlobalAuthenticationConfigurerAdapter {
             public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
                 Customer customer = customerService.findCustomerByEmail(email);
                 if(customer != null) {
-                    return new User(customer.getEmail(), customer.getPassword(), true, true, true, true,
+                    return new User(customer.getEmail(), customer.getPassword(), customer.isActive(), true, true, true,
                             AuthorityUtils.createAuthorityList(customer.getRole().getName()));
                 } else {
                     throw new UsernameNotFoundException("could not find the user '" + email + "'");

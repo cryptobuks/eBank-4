@@ -1,35 +1,43 @@
-<div *ngIf="currencies">
+<div class="row" style="margin-top:50px">
+	<div class="col-sm-3">
 
-  <div class="row">
-    <h4>From</h4>
-    <div class="form-group">
+	</div>
+	<div class="col-sm-6 boxed">
+		<div *ngIf="currencies">
 
-      <div class="col-sm-3">
-        <input type="number" (keyup)="convert()" [(ngModel)]="value" name="value" class="form-control input-sm" />
-      </div>
+		  <div class="row">
+		    <h4>From</h4>
+		    <div class="form-group">
 
-      <div class="col-xs-2">
-        <select [(ngModel)]="from" (change)="convert()" name="from" class="form-control input-sm">
-          <option *ngFor="let currency of currencies">{{currency}}</option>
-        </select>
-      </div>
+		      <div class="col-sm-6">
+		        <input type="number" (keyup)="convert()" [(ngModel)]="value" name="value" class="form-control input-sm" />
+		      </div>
 
-    </div>
-  </div>
-  <div class="row">
-    <h4>To</h4>
-    <div class="from-group">
-      <div class="col-sm-3">
-        <input type="number" [(ngModel)]="converted" name="converted" class="form-control input-sm" />
-      </div>
-      <div class="col-xs-2">
-        <select [(ngModel)]="to" name="to" (change)="convert()" class="form-control input-sm">
-          <option *ngFor="let currency of currencies">{{currency}}</option>
-        </select>
-      </div>
-    </div>
-  </div>
-  <br />
-  <button type="button" (click)="swapCurrencies()" class="btn btn-primary">Swap</button>
+		      <div class="col-xs-4">
+		        <select [(ngModel)]="from" (change)="convert()" name="from" class="form-control input-sm">
+		          <option *ngFor="let currency of currencies">{{currency}}</option>
+		        </select>
+		      </div>
 
+		    </div>
+		  </div>
+		  <div class="row">
+		    <h4>To</h4>
+		    <div class="from-group">
+		      <div class="col-sm-6">
+		        <input type="number" [(ngModel)]="converted" name="converted" class="form-control input-sm" />
+		      </div>
+		      <div class="col-xs-4">
+		        <select [(ngModel)]="to" name="to" (change)="convert()" class="form-control input-sm">
+		          <option *ngFor="let currency of currencies">{{currency}}</option>
+		        </select>
+		      </div>
+		    </div>
+		  </div>
+		  <br />
+		  <button type="button" (click)="swapCurrencies()" class="btn btn-success">Swap</button>
+
+		</div>
+
+	</div>
 </div>

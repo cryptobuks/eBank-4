@@ -1,5 +1,5 @@
 
-.ordersHistory label {
+.allUsers label {
 	display:none;
 }
 
@@ -26,7 +26,7 @@ hr {
 		display:none!important;
 	}
 
-	.ordersHistory label {
+	.allUsers label {
 		display:inline-block;
 	}
 

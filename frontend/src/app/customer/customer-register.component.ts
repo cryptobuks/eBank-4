@@ -13,6 +13,7 @@ import { CustomerService } from './customer.service';
 export class CustomerRegisterComponent {
 
   customer: Customer;
+	error: string;
 
   constructor(private customerService: CustomerService, private router: Router) {
     this.customer = new Customer();
@@ -23,7 +24,9 @@ export class CustomerRegisterComponent {
     this.customerService.registerCustomer(this.customer).subscribe(res => {
       console.log(res);
       this.router.navigate(["/login"]);
-    })
+    }, err => {
+			this.error = err.json().message;
+		});
   }
 
   print(a: string){

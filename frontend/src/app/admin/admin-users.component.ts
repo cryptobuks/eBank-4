@@ -6,6 +6,7 @@ import { CustomerService } from '../customer/customer.service';
 @Component({
   selector: 'admin-users',
   templateUrl: './admin-users.component.html',
+	styleUrls: ['./admin-users.component.css'],
   providers: [CustomerService]
 })
 export class AdminUsersComponent implements OnInit {
@@ -38,6 +39,7 @@ export class AdminUsersComponent implements OnInit {
 
   editCustomer(customer: Customer) {
     this.customerService.editCustomer(customer).subscribe(res => {
+			console.log(customer);
       console.log("edited");
   }, err => {
       this.error = err.json().error;

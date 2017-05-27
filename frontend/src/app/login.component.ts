@@ -10,12 +10,14 @@ import { AuthService } from './auth.service';
 @Component({
   selector: 'ebank-login',
   templateUrl: './login.component.html',
+	styleUrls: ["./login.component.css"],
   providers: [CustomerService]
 })
 export class LoginComponent implements OnInit {
 
   customer: Customer;
   credentials: Credentials;
+	error: string;
 
   constructor(private http: Http, private router: Router, private authService: AuthService) {
     this.credentials = new Credentials('', '');
@@ -26,6 +28,9 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/customer']);
     }, err => {
       this.router.navigate(['/login']);
+			if(err.statusText == 'Unauthorized') {
+				this.error = "Bad credentials";
+			}
     });
   }
 

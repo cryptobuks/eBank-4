@@ -1,38 +1,122 @@
 <div *ngIf="orders">
+	<div class="alert alert-info" [hidden]="orders.length != 0">
+		No orders to show!
+	</div>
+	<div class="ordersHistory">
+		<div class="row">
+			<div class="col-sm-3 mobile">
+				<label>Creditor:</label>
+			</div>
+			<div class="col-sm-3 mobile">
+				<label>Amount:</label>
+			</div>
+			<div class="col-sm-3 mobile">
+				<label>Date:</label>
+			</div>
+			<div class="col-sm-3 mobile">
+				<label>Description:</label>
+			</div>
+		</div>
+		<div *ngFor="let order of orders" class="row pointer" data-toggle="modal" data-target="#orderModal"(click)='setSelectedOrder(order)'>
+			<div class="col-sm-3">
+				<label>Creditor:</label>
+				{{order.creditor.name}}
+			</div>
+			<div class="col-sm-3">
+				<label>Amount:</label>
+				{{order.amount}}
+			</div>
+			<div class="col-sm-3">
+				<label>Date:</label>
+				{{order.date | date: 'HH:mm dd-MM-yyyy'}}
+			</div>
+			<div class="col-sm-3">
+				<label>Description:</label>
+				{{order.description}}
+			</div>
+			<hr />
+		</div>
+	</div>
 
+	<!-- <table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Creditor</th>
+				<th>Creditor address</th>
+				<th>Creditor transaction account</th>
+				<th>Creditor bank</th>
+				<th>Amount</th>
+				<th>Date</th>
+				<th>Type</th>
+				<th>Description</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr *ngFor="let order of orders" (click)="setSelectedOrder(order)" data-toggle="modal" data-target="#orderModal" class="pointer">
+				<td>{{order.creditor.name}}</td>
+				<td>{{order.creditor.address}}</td>
+				<td>{{order.creditor.transactionNumber}}</td>
+				<td>{{order.creditor.imeNaBanka}}</td>
+				<td>{{order.amount}}</td>
+				<td>{{order.date | date: 'HH:mm dd-MM-yyyy'}}</td>
+				<td>{{order.type}}</td>
+				<td>{{order.description}}</td>
+			</tr>
+		</tbody>
+	</table> -->
 
-    <!-- <creditor-detail [creditor]="order.creditor"></creditor-detail> <br />
-    Amount: {{order.amount}} <br />
-    Data: {{order.date | date: 'dd-MM-yyyy'}} <br />
-    Description: {{order.description}} -->
+  <div class="text-center">
+		<ul *ngIf="totalPages" class="pagination">
+	    <li *ngFor="let p of totalPages" [ngClass]="{'active': page == p}"><a class="pointer" (click)="setPage(p)">{{p}}</a></li>
+	  </ul>
+	</div>
+</div>
 
-    <table class="table table-hover">
-    <thead>
-      <tr>
-        <th>Creditor name</th>
-        <th>Creditor address</th>
-        <th>Creditor transaction account</th>
-        <th>Creditor bank</th>
-        <th>Amount</th>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Type</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let order of orders">
-        <td>{{order.creditor.name}}</td>
-        <td>{{order.creditor.address}}</td>
-        <td>{{order.creditor.transactionNumber}}</td>
-        <td>{{order.creditor.imeNaBanka}}</td>
-        <td>{{order.amount}}</td>
-        <td>{{order.date | date: 'dd-MM-yyyy HH:mm'}}</td>
-        <td>{{order.description}}</td>
-        <td>{{order.type}}</td>
-      </tr>
-    </tbody>
-  </table>
-  <ul *ngIf="totalPages" class="pagination">
-    <li *ngFor="let p of totalPages" [ngClass]="{'active': page == p}"><a (click)="setPage(p)">{{p}}</a></li>
-  </ul>
+<div *ngIf="selectedOrder">
+  <div id="orderModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Order details</h4>
+        </div>
+        <div class="modal-body">
+					<label>
+						Creditor's name: {{selectedOrder.creditor.name}}
+					</label> <br />
+					<label>
+						Creditor's address: {{selectedOrder.creditor.address}}
+					</label><br />
+					<label>
+						Creditor's transaction number: {{selectedOrder.creditor.transactionNumber}}
+					</label><br />
+					<label>
+						Creditor's bank: {{selectedOrder.creditor.imeNaBanka}}
+					</label><br />
+					<label>
+						Amount: {{selectedOrder.amount}}
+					</label><br />
+					<label>
+						Date: {{selectedOrder.date | date: 'HH:mm dd-MM-yyyy'}}
+					</label><br />
+					<label>
+						Type: {{selectedOrder.type}}
+					</label><br />
+					<label>
+						Description: {{selectedOrder.description}}
+					</label><br />
+
+<!--
+					<td>{{order.amount}}</td>
+	        <td>{{order.date | date: 'HH:mm dd-MM-yyyy'}}</td>
+					<td>{{order.type}}</td>
+	        <td>{{order.description}}</td> -->
+        </div>
+        <div class="modal-footer">
+        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
 </div>

@@ -19,6 +19,7 @@ export class OrderDetailComponent implements OnInit {
   orders: Order[];
   page: number;
   limit: number;
+	selectedOrder: Order;
 
   totalPages: number[];
 
@@ -50,5 +51,10 @@ export class OrderDetailComponent implements OnInit {
       this.orders = res.content;
     })
   }
+
+	setSelectedOrder(order: Order) {
+		this.selectedOrder = order;
+		console.log(order);
+	}
 
 }
