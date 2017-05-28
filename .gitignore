@@ -1,8 +1,7 @@
 .idea/
 ebank.iml
 frontend/node_modules/
-src/test/java/com/fict/entities/
-src/test/java/com/fict/repository/
-src/test/java/com/fict/services/
 target/
 application.properties
+.resourceCache/
+frontend/dist/
