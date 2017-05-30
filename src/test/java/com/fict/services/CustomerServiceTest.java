@@ -41,27 +41,69 @@ public class CustomerServiceTest {
 
     @Before
     public void setUp() {
-        Customer customer = new Customer();
-        customer.setEmail("kondinskis@gmail.com");
 
-        Mockito.when(customerRepository.findCustomerByEmail(customer.getEmail()))
-                .thenReturn(customer);
-
-        Role role = new Role();
-        role.setId(1L);
-        role.setName("ADMIN");
-
-        Mockito.when(roleRepository.findRoleByName("ADMIN"))
-                .thenReturn(role);
     }
 
     @Test
-    public void whenValidEmail_thenCustomerShouldBeFound() {
+    public void findCustomerByEmailShouldReturnCustomer() {
+
         String email = "kondinskis@gmail.com";
+        Customer shouldReturn = getDummyCustomer();
+        Mockito.when(customerRepository.findCustomerByEmail(email)).thenReturn(shouldReturn);
+
         Customer found = customerService.findCustomerByEmail(email);
 
-        assertThat(found.getEmail())
-                .isEqualTo(email);
+        assertThat(found)
+                .isEqualTo(shouldReturn);
+    }
+
+    @Test
+    public void findCustomerByEmailWhenNotFoundShouldReturnNull() {
+
+        String email = "test@mail.com";
+
+        Mockito.when(customerRepository.findCustomerByEmail(email)).thenReturn(null);
+
+        Customer found = customerService.findCustomerByEmail(email);
+
+        assertThat(found)
+                .isEqualTo(null);
+
+    }
+
+    @Test
+    public void findCustomerByEmbgShouldReturnCustomer() {
+
+        String embg = "1234123412341";
+        Customer shouldReturn = getDummyCustomer();
+        Mockito.when(customerRepository.findCustomerByEmbg(embg)).thenReturn(shouldReturn);
+
+        Customer found = customerRepository.findCustomerByEmbg(embg);
+
+        assertThat(found).isEqualTo(shouldReturn);
+
+    }
+
+    @Test
+    public void findCustomerByEmbgWhenNotFoundShouldReturnNull() {
+
+        String embg = "4321432143212";
+        Mockito.when(customerRepository.findCustomerByEmbg(embg)).thenReturn(null);
+
+        Customer found = customerRepository.findCustomerByEmbg(embg);
+
+        assertThat(found).isEqualTo(null);
+
+    }
+
+
+    private Customer getDummyCustomer() {
+        Customer customer = new Customer();
+        customer.setEmail("kondinskis@gmail.com");
+        customer.setFirstName("Stefan");
+        customer.setLastName("Kondinski");
+        customer.setEmbg("1234123412341");
+        return customer;
     }
 
 }

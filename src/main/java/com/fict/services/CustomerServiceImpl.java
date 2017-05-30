@@ -59,8 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
 	@Transactional
 	public Customer registerCustomer(Customer customer) {
 
-        if(customerRepository.findCustomerByEmbg(customer.getEmbg())!=null)
-        {
+        if(customerRepository.findCustomerByEmbg(customer.getEmbg()) != null) {
             throw new DataIntegrityViolationException("EMBG in use!");
         }
 
