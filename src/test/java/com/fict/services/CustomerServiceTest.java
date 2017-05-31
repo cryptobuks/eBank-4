@@ -78,7 +78,7 @@ public class CustomerServiceTest {
         Customer shouldReturn = getDummyCustomer();
         Mockito.when(customerRepository.findCustomerByEmbg(embg)).thenReturn(shouldReturn);
 
-        Customer found = customerRepository.findCustomerByEmbg(embg);
+        Customer found = customerService.findCustomerByEmbg(embg);
 
         assertThat(found).isEqualTo(shouldReturn);
 
@@ -90,12 +90,36 @@ public class CustomerServiceTest {
         String embg = "4321432143212";
         Mockito.when(customerRepository.findCustomerByEmbg(embg)).thenReturn(null);
 
-        Customer found = customerRepository.findCustomerByEmbg(embg);
+        Customer found = customerService.findCustomerByEmbg(embg);
 
         assertThat(found).isEqualTo(null);
 
     }
 
+    @Test
+    public void findCustomerByIdShouldReturnCustomer() {
+
+        long id = 1L;
+        Customer shouldReturn = getDummyCustomer();
+        Mockito.when(customerRepository.findCustomerById(id)).thenReturn(shouldReturn);
+
+        Customer found = customerService.findCustomerById(id);
+
+        assertThat(found).isEqualTo(shouldReturn);
+
+    }
+
+    @Test
+    public void findCustomerByIdWhenNotFoundShouldReturnNull() {
+
+        long id = 1L;
+        Mockito.when(customerRepository.findCustomerById(id)).thenReturn(null);
+
+        Customer found = customerService.findCustomerById(id);
+
+        assertThat(found).isEqualTo(null);
+
+    }
 
     private Customer getDummyCustomer() {
         Customer customer = new Customer();
