@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -129,22 +126,23 @@ public class OrderServiceTest {
         assertThat(foundOrders).isEqualTo(null);
     }
 
-     /*@Test
-      public void findAllOrdersShouldReturnOrders() {
+	@Test
+	public void findAllOrdersShouldReturnOrders() {
 
-          PageRequest request = new PageRequest(0, 5, Sort.Direction.ASC, "id");
-          List<Order> orderList = Arrays.asList(
-                  getDummyOrder(1,2,1),
-                  getDummyOrder(2,1,2),
-                  getDummyOrder(3,2,1));
-          Page<Order> shouldReturn = new PageImpl<Order>(orderList);
-          Mockito.when(orderRepository.findAll(request)).thenReturn(shouldReturn);
+		Pageable request = new PageRequest(0, 2, Sort.Direction.DESC, "id");
+		List<Order> orderList = Arrays.asList(
+			getDummyOrder(1,2,1, 1),
+			getDummyOrder(2,1,2, 2),
+			getDummyOrder(3,2,1, 3));
+		Page<Order> shouldReturn = new PageImpl<>(orderList, request, 3);
 
-          Page<Order> foundOrders = orderService.findAll(1,5);
+		Mockito.when(orderRepository.findAll(request)).thenReturn(shouldReturn);
 
-          assertThat(foundOrders).isEqualTo(shouldReturn);
-      }
-     */
+		Page<Order> foundOrders = orderService.findAll(1,2);
+
+		assertThat(foundOrders).isEqualTo(shouldReturn);
+	}
+
 
     @Test
     public void findAllOrdersWhenNotFoundShouldReturnNull() {
@@ -173,7 +171,7 @@ public class OrderServiceTest {
         return order;
     }
 
-    public Order getDummyOrder(long customerId, long creditorId, double amount) {
+    public Order getDummyOrder(long customerId, long creditorId, double amount, long orderId) {
         Customer customer = new Customer();
         customer.setId(customerId);
 
@@ -181,6 +179,7 @@ public class OrderServiceTest {
         creditor.setId(creditorId);
 
         Order order = new Order();
+        order.setId(orderId);
         order.setCustomer(customer);
         order.setCreditor(creditor);
         order.setAmount(amount);
