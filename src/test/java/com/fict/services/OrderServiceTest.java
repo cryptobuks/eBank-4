@@ -16,7 +16,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Dule on 31-May-17.
@@ -74,6 +79,29 @@ public class OrderServiceTest {
 
     }
 
+    @Test
+    public void findOrdersByCrediotShouldReturnOrders() {
+
+        List<Order> shouldReturn = new ArrayList<>();
+        Creditor creditor = getDummyCreditor();
+        Mockito.when(orderRepository.findOrdersByCreditor(creditor)).thenReturn(shouldReturn);
+
+        List<Order> foundOrders = orderService.findOrdersByCreditor(creditor);
+
+        assertTrue(foundOrders.equals(shouldReturn));
+    }
+
+    @Test
+    public void findOrdersByCrediotWhenNotFoundShouldReturnNull() {
+
+        Creditor creditor = getDummyCreditor();
+        Mockito.when(orderRepository.findOrdersByCreditor(creditor)).thenReturn(null);
+
+        List<Order> foundOrders = orderService.findOrdersByCreditor(creditor);
+
+        assertNull(foundOrders);
+    }
+
     public Order getDummyOrder() {
         Customer customer = new Customer();
         customer.setId(1L);
@@ -87,5 +115,13 @@ public class OrderServiceTest {
         order.setAmount(5.00D);
         order.setDescription("Test order");
         return order;
+    }
+
+    public Creditor getDummyCreditor() {
+        Creditor creditor = new Creditor();
+        creditor.setName("Stefan");
+        creditor.setAddress("Bitola, Macedonia");
+        creditor.setImeNaBanka("EBANK");
+        return creditor;
     }
 }
