@@ -14,14 +14,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+
 
 /**
  * Created by Dule on 31-May-17.
@@ -80,7 +84,30 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void findOrdersByCrediotShouldReturnOrders() {
+    public void findOrdersByEmailShouldReturnOrders() {
+
+        String email = "kondinskis@gmail.com";
+        List<Order> shouldReturn = new ArrayList<>();
+        Mockito.when(orderRepository.findOrdersByCustomerEmail(email)).thenReturn(shouldReturn);
+
+        List<Order> found = orderService.findOrdersByCustomerEmail(email);
+
+        assertThat(found).isEqualTo(shouldReturn);
+    }
+
+    @Test
+    public void findOrdersByEmailWhenNotFoundShouldReturnNull() {
+
+        String email = "kondinskis@gmail.com";
+        Mockito.when(orderRepository.findOrdersByCustomerEmail(email)).thenReturn(null);
+
+        List<Order> found = orderService.findOrdersByCustomerEmail(email);
+
+        assertThat(found).isEqualTo(null);
+    }
+
+    @Test
+    public void findOrdersByCreditorShouldReturnOrders() {
 
         List<Order> shouldReturn = new ArrayList<>();
         Creditor creditor = getDummyCreditor();
@@ -88,19 +115,48 @@ public class OrderServiceTest {
 
         List<Order> foundOrders = orderService.findOrdersByCreditor(creditor);
 
-        assertTrue(foundOrders.equals(shouldReturn));
+        assertThat(foundOrders).isEqualTo(shouldReturn);
     }
 
     @Test
-    public void findOrdersByCrediotWhenNotFoundShouldReturnNull() {
+    public void findOrdersByCreditorWhenNotFoundShouldReturnNull() {
 
         Creditor creditor = getDummyCreditor();
         Mockito.when(orderRepository.findOrdersByCreditor(creditor)).thenReturn(null);
 
         List<Order> foundOrders = orderService.findOrdersByCreditor(creditor);
 
-        assertNull(foundOrders);
+        assertThat(foundOrders).isEqualTo(null);
     }
+
+     /*@Test
+      public void findAllOrdersShouldReturnOrders() {
+
+          PageRequest request = new PageRequest(0, 5, Sort.Direction.ASC, "id");
+          List<Order> orderList = Arrays.asList(
+                  getDummyOrder(1,2,1),
+                  getDummyOrder(2,1,2),
+                  getDummyOrder(3,2,1));
+          Page<Order> shouldReturn = new PageImpl<Order>(orderList);
+          Mockito.when(orderRepository.findAll(request)).thenReturn(shouldReturn);
+
+          Page<Order> foundOrders = orderService.findAll(1,5);
+
+          assertThat(foundOrders).isEqualTo(shouldReturn);
+      }
+     */
+
+    @Test
+    public void findAllOrdersWhenNotFoundShouldReturnNull() {
+
+        PageRequest request = new PageRequest(0, 5, Sort.Direction.ASC, "id");
+        Mockito.when(orderRepository.findAll(request)).thenReturn(null);
+
+        Page<Order> foundOrders = orderService.findAll(1, 5);
+
+        assertThat(foundOrders).isEqualTo(null);
+    }
+
 
     public Order getDummyOrder() {
         Customer customer = new Customer();
@@ -113,6 +169,21 @@ public class OrderServiceTest {
         order.setCustomer(customer);
         order.setCreditor(creditor);
         order.setAmount(5.00D);
+        order.setDescription("Test order");
+        return order;
+    }
+
+    public Order getDummyOrder(long customerId, long creditorId, double amount) {
+        Customer customer = new Customer();
+        customer.setId(customerId);
+
+        Creditor creditor = new Creditor();
+        creditor.setId(creditorId);
+
+        Order order = new Order();
+        order.setCustomer(customer);
+        order.setCreditor(creditor);
+        order.setAmount(amount);
         order.setDescription("Test order");
         return order;
     }

@@ -1,6 +1,7 @@
 package com.fict.services;
 
 import com.fict.entities.Customer;
+import com.fict.entities.Order;
 import com.fict.entities.Role;
 import com.fict.repository.CustomerRepository;
 import com.fict.repository.RoleRepository;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -119,6 +123,31 @@ public class CustomerServiceTest {
 
         assertThat(found).isEqualTo(null);
 
+    }
+
+    /*
+        @Test
+         public void findAllCustomersShouldReturnCustomers() {
+
+             PageRequest request = new PageRequest(0, 5, Sort.Direction.ASC, "id");
+             Page<Customer> shouldReturn;
+
+             Mockito.when(customerRepository.findAll(request)).thenReturn(shouldReturn);
+
+             Page<Customer> foundCustomers = customerService.findAll(1,5);
+
+             assertThat(foundCustomers).isEqualTo(shouldReturn);
+         }
+    */
+    @Test
+    public void findAllCustomersWhenNotFoundShouldReturnNull() {
+
+        PageRequest request = new PageRequest(0, 5, Sort.Direction.ASC, "id");
+        Mockito.when(customerRepository.findAll(request)).thenReturn(null);
+
+        Page<Customer> foundCustomers = customerService.findAll(1, 5);
+
+        assertThat(foundCustomers).isEqualTo(null);
     }
 
     private Customer getDummyCustomer() {
