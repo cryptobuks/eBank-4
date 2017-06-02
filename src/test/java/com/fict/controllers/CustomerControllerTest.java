@@ -1,41 +1,23 @@
 package com.fict.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fict.configs.TestSecurityConfiguration;
 import com.fict.entities.Customer;
 import com.fict.services.CustomerService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.test.context.support.WithSecurityContextTestExecutionListener;
-import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -43,23 +25,16 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryCurrencies;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CustomerController.class)
@@ -75,16 +50,41 @@ public class CustomerControllerTest {
     @MockBean
     private CustomerService customerService;
 
-    private TestingAuthenticationToken testingAuthenticationToken;
-
     @Before
     public void setUp() {
         mockMvc = MockMvcBuilders
 				.webAppContextSetup(webApplicationContext)
 				.apply(springSecurity())
 				.build();
-		System.out.println(SecurityContextHolder.getContext());
 	}
+
+	@Test
+	@WithMockUser
+	public void testShouldReturnPricipal() throws Exception {
+
+    	String s = SecurityContextHolder.getContext().getAuthentication().getName();
+
+
+    	mockMvc.perform(get("/user"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(jsonPath("$.principal.username", org.hamcrest.Matchers.is(s)))
+				.andDo(print())
+				.andReturn();
+
+	}
+
+	@Test
+	@WithAnonymousUser
+	public void testIfNotAuthenticatedShouldReturn401() throws Exception {
+
+    	mockMvc.perform(get("/user"))
+				.andExpect(status().isUnauthorized())
+				.andDo(print())
+				.andReturn();
+
+	}
+
 
     @Test
 	@WithMockUser("kondinskis@gmail.com")
@@ -92,13 +92,13 @@ public class CustomerControllerTest {
 
     	String email = SecurityContextHolder.getContext().getAuthentication().getName();
 
-		Mockito.when(customerService.findCustomerByEmail(email)).thenReturn(getDummyCustomer());
+    	Customer shouldReturn = getDummyCustomer();
+		Mockito.when(customerService.findCustomerByEmail(email)).thenReturn(shouldReturn);
 
         mockMvc.perform(get("/customer"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(content().json(new ObjectMapper().writeValueAsString(
-                        customerService.findCustomerByEmail(email))))
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(shouldReturn)))
                 .andDo(print())
                 .andReturn();
 
@@ -126,7 +126,7 @@ public class CustomerControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new ObjectMapper().writeValueAsString(customer)))
 				.andExpect(status().isOk())
-				.andExpect(content().json(new ObjectMapper().writeValueAsString(customerService.registerCustomer(customer))))
+				.andExpect(content().json(new ObjectMapper().writeValueAsString(customer)))
 				.andReturn();
 
 	}
@@ -143,6 +143,53 @@ public class CustomerControllerTest {
 
 	@Test
 	@WithMockUser
+	public void getAllCustomersShouldReturnCustomers() throws Exception {
+
+    	Page<Customer> shouldReturn = new PageImpl<>(Arrays.asList(
+    			getDummyCustomer(),
+    			getDummyCustomer(),
+    			getDummyCustomer(),
+    			getDummyCustomer(),
+    			getDummyCustomer()
+		));
+
+		Mockito.when(customerService.findAll(any(Integer.class), any(Integer.class))).thenReturn(shouldReturn);
+
+
+    	mockMvc.perform(get("/admin/customers")
+				.param("p", "1")
+				.param("l", "5"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(content().json(new ObjectMapper().writeValueAsString(shouldReturn)))
+				.andDo(print())
+				.andReturn();
+
+
+	}
+
+	@Test
+	@WithMockUser(authorities = "NORMAL")
+	public void getAllCustomersWhenNormalCustomerShouldReturnForbidden() throws Exception {
+
+		mockMvc.perform(get("/admin/customers"))
+				.andExpect(status().isForbidden())
+				.andReturn();
+
+	}
+
+	@Test
+	@WithAnonymousUser
+	public void getAllCustomersWhenNotAuthenticatedShouldReturn401() throws Exception {
+
+		mockMvc.perform(get("/admin/customers"))
+				.andExpect(status().isUnauthorized())
+				.andReturn();
+
+	}
+
+	@Test
+	@WithMockUser
 	public void editCustomerShouldReturnCustomer() throws Exception {
 
     	Customer customer = getDummyCustomer();
@@ -152,7 +199,7 @@ public class CustomerControllerTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(new ObjectMapper().writeValueAsString(customer)))
 				.andExpect(status().isOk())
-				.andExpect(content().json(new ObjectMapper().writeValueAsString(customerService.saveCustomer(customer))))
+				.andExpect(content().json(new ObjectMapper().writeValueAsString(customer)))
 				.andDo(print());
 
 	}
@@ -181,13 +228,14 @@ public class CustomerControllerTest {
 	@WithMockUser
 	public void getCustomerByIdShouldReturnCustomer() throws Exception {
     	long id = 1L;
-    	Mockito.when(customerService.findCustomerById(id)).thenReturn(getDummyCustomer());
+    	Customer shouldReturn = getDummyCustomer();
+    	Mockito.when(customerService.findCustomerById(id)).thenReturn(shouldReturn);
 
     	mockMvc.perform(get("/admin/customer/{id}", id))
 				.andExpect(status().isOk())
 				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
 				.andExpect(content().json(new ObjectMapper().writeValueAsString(
-						customerService.findCustomerById(id)
+						shouldReturn
 				)))
 				.andDo(print())
 				.andReturn();
