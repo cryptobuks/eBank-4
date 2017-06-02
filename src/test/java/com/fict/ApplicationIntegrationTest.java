@@ -19,12 +19,14 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -53,10 +55,12 @@ public class ApplicationIntegrationTest {
 
 	@Before
 	public void setUp() {
-		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-		User user = new User("kondinskis@gmail.com", "", AuthorityUtils.createAuthorityList("NORMAL"));
-		testingAuthenticationToken = new TestingAuthenticationToken(user, null);
-		SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
+		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+				.apply(springSecurity())
+				.build();
+//		User user = new User("kondinskis@gmail.com", "", AuthorityUtils.createAuthorityList("NORMAL"));
+//		testingAuthenticationToken = new TestingAuthenticationToken(user, null);
+//		SecurityContextHolder.getContext().setAuthentication(testingAuthenticationToken);
 
 		Role role = new Role();
 		role.setId(1L);
@@ -74,16 +78,30 @@ public class ApplicationIntegrationTest {
 		c.setPassword("123");
 		c.setEmail("kondinskis@gmail.com");
 		customerService.registerCustomer(c);
+
+
 	}
 
 	@Test
+	@WithMockUser(username = "kondinskis@gmail.com", password = "123", authorities = "NORMAL")
 	public void givenEmailGetCustomer() throws Exception {
 
-		mockMvc.perform(get("/customer").principal(testingAuthenticationToken)
+
+		mockMvc.perform(get("/customer")
 			.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().isOk())
 				.andDo(print());
 
 	}
+
+//	@Test
+//	public void givenEmailGetCustom3er() throws Exception {
+//
+//		mockMvc.perform(get("/customer")
+//				.contentType(MediaType.APPLICATION_JSON))
+//				.andExpect(status().isOk())
+//				.andDo(print());
+//
+//	}
 
 }

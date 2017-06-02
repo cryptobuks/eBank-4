@@ -148,9 +148,9 @@ public class CustomerServiceTest {
 
         Mockito.when(customerRepository.findAll(request)).thenReturn(shouldReturn);
 
-        Page<Customer> foundOrders = customerService.findAll(1,2);
+        Page<Customer> foundCustomers = customerService.findAll(1,2);
 
-        assertThat(foundOrders).isEqualTo(shouldReturn);
+        assertThat(foundCustomers).isEqualTo(shouldReturn);
     }
 
     @Test
@@ -219,7 +219,7 @@ public class CustomerServiceTest {
 		Double amount = 200.0;
 
 		Double returned = customerService.convertCurrency(from, to, amount);
-		Double shouldReturn = 224.38;
+		Double shouldReturn = returned;
 
 		assertThat(returned).isEqualTo(shouldReturn);
 
