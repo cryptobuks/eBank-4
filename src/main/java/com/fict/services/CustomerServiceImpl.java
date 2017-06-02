@@ -118,7 +118,7 @@ public class CustomerServiceImpl implements CustomerService {
 	public Double convertCurrency(String from, String to, Double value) {
 		
 		MonetaryAmount amount = Money.of(value, MonetaryCurrencies.getCurrency(from));
-		
+
 		CurrencyConversion conversion = MonetaryConversions.
 				getConversion(MonetaryCurrencies.getCurrency(to));
 		

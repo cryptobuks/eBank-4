@@ -1,8 +1,147 @@
 <div *ngIf="orders">
+	<div class="alert alert-info" [hidden]="orders.length != 0">
+		No orders to show!
+	</div>
+	<div class="ordersHistory" [hidden]="orders.length == 0">
+		<div class="row">
+			<div class="col-sm-2 mobile">
+				<label>Customer:</label>
+			</div>
+			<div class="col-sm-2 mobile">
+				<label>Creditor:</label>
+			</div>
+			<div class="col-sm-2 mobile">
+				<label>Amount:</label>
+			</div>
+			<div class="col-sm-3 mobile">
+				<label>Date:</label>
+			</div>
+			<div class="col-sm-3 mobile">
+				<label>Description:</label>
+			</div>
+		</div>
+		<div *ngFor="let order of orders" class="row pointer" data-toggle="modal" data-target="#orderModal"(click)='setEditableOrder(order)'>
+			<div class="col-sm-2">
+				<label>Customer:</label>
+				{{order.customer.firstName}}
+			</div>
+			<div class="col-sm-2">
+				<label>Creditor:</label>
+				{{order.creditor.name}}
+			</div>
+			<div class="col-sm-2">
+				<label>Amount:</label>
+				{{order.amount}}
+			</div>
+			<div class="col-sm-3">
+				<label>Date:</label>
+				{{order.date | date: 'HH:mm dd-MM-yyyy'}}
+			</div>
+			<div class="col-sm-3">
+				<label>Description:</label>
+				{{order.description}}
+			</div>
+			<hr />
+		</div>
+	</div>
+
+  <div class="text-center">
+		<ul *ngIf="totalPages" class="pagination">
+	    <li *ngFor="let p of totalPages" [ngClass]="{'active': page == p}"><a class="pointer" (click)="setPage(p)">{{p}}</a></li>
+	  </ul>
+	</div>
+</div>
+
+<div *ngIf="selectedOrder">
+  <div id="orderModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit order: {{selectedOrder.id}}</h4>
+        </div>
+        <div class="modal-body">
+					<div class="form-group">
+						<label>
+							Customer's name: {{selectedOrder.customer.firstName}} {{selectedOrder.customer.lastName}}
+						</label>
+					</div>
+					<div class="form-group">
+						<label>
+							Customer's Transaction account: {{selectedOrder.customer.transactionNumber}}
+						</label>
+					</div>
+					<div class="form-group">
+						<label>
+							Customer's Address: {{selectedOrder.customer.address}}
+						</label>
+					</div>
+					<div class="form-group">
+						<label>
+							Creditor's name: {{selectedOrder.creditor.name}}
+						</label>
+					</div>
+					<div class="form-group">
+						<label>
+							Creditor's address: {{selectedOrder.creditor.name}}
+						</label>
+					</div>
+					<div class="form-group">
+						<label>
+							Creditor's transaction: {{selectedOrder.creditor.transactionNumber}}
+						</label>
+					</div>
+					<div class="form-group">
+						<label>
+							Creditor's bank: {{selectedOrder.creditor.imeNaBanka}}
+						</label>
+					</div>
+					<div class="form-group">
+						<label>
+							Order type: {{selectedOrder.type}}
+						</label>
+					</div>
+					<hr />
+          <!-- <div class="form-group">
+            <label for="creditorname">Creditor name:</label>
+            <input type="text" class="form-control" name="selectedOrder.creditor.name" [(ngModel)]="selectedOrder.creditor.name" />
+          </div>
+          <div class="form-group">
+            <label for="creditoraddress">Creditor Address:</label>
+            <input type="text" class="form-control" name="selectedOrder.creditor.address" [(ngModel)]="selectedOrder.creditor.address" />
+          </div>
+          <div class="form-group">
+            <label for="creditortransactionnumber">Creditor Transaction number:</label>
+            <input type="text" class="form-control" name="selectedOrder.creditor.transactionNumber" [(ngModel)]="selectedOrder.creditor.transactionNumber" />
+          </div> -->
+          <div class="form-group">
+            <label for="orderamount">Order amount</label>
+            <input type="text" class="form-control" name="selectedOrder.amount" [(ngModel)]="selectedOrder.amount" />
+          </div>
+          <div class="form-group">
+            <label for="orderdescription">Order description</label>
+            <input type="text" class="form-control" name="selectedOrder.description" [(ngModel)]="selectedOrder.description" />
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal" (click)="editOrder(selectedOrder)">Edit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <div *ngIf="orders">
 
   <table class="table table-hover">
   <thead>
     <tr>
+			<th>Customer name</th>
       <th>Creditor name</th>
       <th>Creditor address</th>
       <th>Creditor transaction account</th>
@@ -15,6 +154,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let order of orders">
+			<td>{{order.customer.firstName}}</td>
       <td>{{order.creditor.name}}</td>
       <td>{{order.creditor.address}}</td>
       <td>{{order.creditor.transactionNumber}}</td>
@@ -72,4 +212,4 @@
 
     </div>
   </div>
-</div>
+</div> -->

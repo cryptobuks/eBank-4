@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by Dule on 01-Jun-17.
@@ -43,7 +44,7 @@ public class RoleServiceTest {
     public void findRoleByIdShouldReturnRole() {
 
         long id = 1L;
-        Role shouldReturn = getDummyRole();
+        Role shouldReturn = mock(Role.class);
         Mockito.when(roleRepository.findRoleById(id)).thenReturn(shouldReturn);
 
         Role found = roleService.findRoleById(id);
@@ -62,11 +63,4 @@ public class RoleServiceTest {
         assertThat(found).isEqualTo(null);
     }
 
-    public Role getDummyRole() {
-        Role role = new Role();
-        role.setId(1L);
-        role.setName("ADMIN");
-
-        return role;
-    }
 }

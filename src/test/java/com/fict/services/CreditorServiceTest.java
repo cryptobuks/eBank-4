@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 
 /**
  * Created by Dule on 31-May-17.
@@ -43,7 +44,7 @@ public class CreditorServiceTest {
     public void findCreditorByIdShouldReturnCreditor() {
 
         long id = 1L;
-        Creditor shouldReturn = getDummyCreditor();
+        Creditor shouldReturn = mock(Creditor.class);
         Mockito.when(creditorRepository.findCreditorById(id)).thenReturn(shouldReturn);
 
         Creditor found = creditorService.findCreditorById(id);
@@ -63,14 +64,4 @@ public class CreditorServiceTest {
         assertThat(found).isEqualTo(null);
 
     }
-
-
-    private Creditor getDummyCreditor() {
-        Creditor creditor = new Creditor();
-        creditor.setName("Stefan");
-        creditor.setAddress("Bitola, Macedonia");
-        creditor.setImeNaBanka("EBANK");
-        return creditor;
-    }
-
 }
