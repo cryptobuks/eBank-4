@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(OrderController.class)
-public class OrderCotrollerTest {
+public class OrderControllerTest {
 
     @Autowired
     private WebApplicationContext webApplicationContext;
