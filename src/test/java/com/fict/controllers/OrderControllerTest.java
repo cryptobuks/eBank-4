@@ -16,6 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -61,6 +62,82 @@ public class OrderControllerTest {
 
     @Test
     @WithMockUser
+    public void saveOrderShouldReturnOrder() throws Exception {
+
+        Order shouldReturn = getDummyOrder(1, 2, 10, 1);
+
+        Mockito.when(orderService.saveOrder(any(Order.class), any(Principal.class))).thenReturn(shouldReturn);
+
+        mockMvc.perform(post("/order/create")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(shouldReturn)))
+                .andExpect(status().isOk())
+                .andExpect(content().json(new ObjectMapper().writeValueAsString(shouldReturn)))
+                .andDo(print());
+
+    }
+
+    @Test
+	@WithMockUser(authorities = "NORMAL")
+	public void saveOrderWhenNormalShouldReturnForbidden() throws Exception {
+
+    	mockMvc.perform(post("/order/create"))
+				.andExpect(status().isForbidden())
+				.andDo(print())
+				.andReturn();
+
+	}
+
+	@Test
+	@WithAnonymousUser
+	public void saveOrderWhenNotauthenticatedShouldReturn401() throws Exception {
+
+		mockMvc.perform(post("/order/create"))
+				.andExpect(status().isUnauthorized())
+				.andDo(print())
+				.andReturn();
+
+	}
+
+	@Test
+	@WithMockUser
+	public void getOrdersByUserShouldReturnOrders() throws Exception {
+
+		Principal principal = SecurityContextHolder.getContext().getAuthentication();
+		Page<Order> shouldReturn = new PageImpl<Order>(Arrays.asList(
+				getDummyOrder(1, 2, 5, 1),
+				getDummyOrder(2, 1, 10, 2),
+				getDummyOrder(3, 1, 15, 3)
+		));
+
+		Mockito.when(orderService.findOrdersByUser(1, 2, principal))
+				.thenReturn(shouldReturn);
+
+		mockMvc.perform(get("/orders/user")
+				.param("p", "1")
+				.param("l", "2"))
+				.andExpect(status().isOk())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+				.andExpect(content().json(new ObjectMapper().writeValueAsString(shouldReturn)))
+				.andDo(print())
+				.andReturn();
+
+	}
+
+	@Test
+	@WithAnonymousUser
+	public void getOrdersByUserWhenNotAuthenticatedShouldReturn401() throws Exception {
+
+    	mockMvc.perform(get("/orders/user"))
+				.andExpect(status().isUnauthorized())
+				.andDo(print())
+				.andReturn();
+
+	}
+
+
+    @Test
+    @WithMockUser
     public void getOrderByIdShouldReturnOrder() throws Exception {
 
         long id = 1L;
@@ -75,6 +152,28 @@ public class OrderControllerTest {
                 .andDo(print())
                 .andReturn();
     }
+
+    @Test
+    @WithMockUser(authorities = "NORMAL")
+    public void getOrderByIdWhenNormalShouldReturnForbidden() throws Exception {
+
+        mockMvc.perform(get("/admin/order/{id}", 1L))
+                .andExpect(status().isForbidden())
+                .andDo(print())
+                .andReturn();
+
+    }
+
+    @Test
+	@WithAnonymousUser
+	public void getOrderByIdWhenNotAuthenticatedShouldReturn401() throws Exception {
+
+    	mockMvc.perform(get("/admin/order/{id}", 1L))
+				.andExpect(status().isUnauthorized())
+				.andDo(print())
+				.andReturn();
+
+	}
 
     @Test
     @WithMockUser
@@ -99,30 +198,29 @@ public class OrderControllerTest {
     }
 
     @Test
-    @WithMockUser
-    public void getOrdersByUserShouldReturnOrders() throws Exception {
+	@WithMockUser(authorities = "NORMAL")
+	public void getAllOrdersWhenNormalShouldReturnForbidden() throws Exception {
 
-        Principal principal = SecurityContextHolder.getContext().getAuthentication();
-        Page<Order> shouldReturn = new PageImpl<Order>(Arrays.asList(
-                getDummyOrder(1, 2, 5, 1),
-                getDummyOrder(2, 1, 10, 2),
-                getDummyOrder(3, 1, 15, 3)
-        ));
+    	mockMvc.perform(get("/admin/orders"))
+				.andExpect(status().isForbidden())
+				.andDo(print())
+				.andReturn();
 
-        Mockito.when(orderService.findOrdersByUser(1, 2, principal))
-                .thenReturn(shouldReturn);
+	}
 
-        mockMvc.perform(get("/orders/user")
-                .param("p", "1")
-                .param("l", "2"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(content().json(new ObjectMapper().writeValueAsString(shouldReturn)))
-                .andDo(print())
-                .andReturn();
-    }
+	@Test
+	@WithAnonymousUser
+	public void getAllOrdersWhenNotAuthenticatedShouldReturn401() throws Exception {
 
-    @Test
+		mockMvc.perform(get("/admin/orders"))
+				.andExpect(status().isUnauthorized())
+				.andDo(print())
+				.andReturn();
+
+	}
+
+
+	@Test
     @WithMockUser
     public void editOrderShouldReturnOrder() throws Exception {
 
@@ -136,26 +234,30 @@ public class OrderControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json(new ObjectMapper().writeValueAsString(shouldReturn)))
                 .andDo(print());
+
     }
-    /*
-    @Test
-    @WithMockUser
-    public void saveOrderShouldReturnOrder() throws Exception {
 
-        Principal principal = SecurityContextHolder.getContext().getAuthentication();
-        Order shouldReturn = getDummyOrder(1, 2, 10, 1);
-        Order order = getDummyOrder(1,3,5,2);
+	@Test
+	@WithMockUser(authorities = "NORMAL")
+	public void editOrderWhenNormalShouldReturnForbidden() throws Exception {
 
-        Mockito.when(orderService.saveOrder(shouldReturn, principal)).thenReturn(shouldReturn);
+		mockMvc.perform(put("/admin/order/edit"))
+				.andExpect(status().isForbidden())
+				.andDo(print())
+				.andReturn();
 
-        mockMvc.perform(post("/order/create")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(new ObjectMapper().writeValueAsString(shouldReturn)))
-                .andExpect(status().isOk())
-                //  .andExpect(content().json(new ObjectMapper().writeValueAsString(shouldReturn)))
-                .andDo(print());
-    }
-    */
+	}
+
+	@Test
+	@WithAnonymousUser
+	public void editOrderWhenNotAuthenticatedShouldReturn401() throws Exception {
+
+		mockMvc.perform(put("/admin/order/edit"))
+				.andExpect(status().isUnauthorized())
+				.andDo(print())
+				.andReturn();
+
+	}
 
     public Order getDummyOrder(long customerId, long creditorId, double amount, long orderId) {
         Customer customer = new Customer();
