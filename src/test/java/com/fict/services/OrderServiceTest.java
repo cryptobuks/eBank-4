@@ -3,6 +3,7 @@ package com.fict.services;
 import com.fict.entities.Creditor;
 import com.fict.entities.Customer;
 import com.fict.entities.Order;
+import com.fict.entities.Role;
 import com.fict.repository.CreditorRepository;
 import com.fict.repository.CustomerRepository;
 import com.fict.repository.OrderRepository;
@@ -15,13 +16,23 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.*;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
+import sun.security.acl.PrincipalImpl;
 
+import javax.security.auth.kerberos.KerberosPrincipal;
+import java.security.Identity;
+import java.security.Principal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
+import static org.mockito.Matchers.any;
 
 
 /**
@@ -81,7 +92,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void findOrdersByEmailShouldReturnOrders() {
+    public void findOrdersByCustomerEmailShouldReturnOrders() {
 
         String email = "kondinskis@gmail.com";
         List<Order> shouldReturn = new ArrayList<>();
@@ -93,7 +104,7 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void findOrdersByEmailWhenNotFoundShouldReturnNull() {
+    public void findOrdersByCustomerEmailWhenNotFoundShouldReturnNull() {
 
         String email = "kondinskis@gmail.com";
         Mockito.when(orderRepository.findOrdersByCustomerEmail(email)).thenReturn(null);
@@ -126,23 +137,21 @@ public class OrderServiceTest {
         assertThat(foundOrders).isEqualTo(null);
     }
 
-	@Test
-	public void findAllOrdersShouldReturnOrders() {
+    @Test
+    public void findAllOrdersShouldReturnOrders() {
 
-		Pageable request = new PageRequest(0, 2, Sort.Direction.DESC, "id");
-		List<Order> orderList = Arrays.asList(
-			getDummyOrder(1,2,1, 1),
-			getDummyOrder(2,1,2, 2),
-			getDummyOrder(3,2,1, 3));
-		Page<Order> shouldReturn = new PageImpl<>(orderList, request, 3);
+        Pageable request = new PageRequest(0, 2, Sort.Direction.DESC, "id");
+        Page<Order> shouldReturn = new PageImpl<Order>(Arrays.asList(
+                getDummyOrder(1, 2, 1, 1),
+                getDummyOrder(2, 1, 2, 2),
+                getDummyOrder(3, 2, 1, 3)));
 
-		Mockito.when(orderRepository.findAll(request)).thenReturn(shouldReturn);
+        Mockito.when(orderRepository.findAll(request)).thenReturn(shouldReturn);
 
-		Page<Order> foundOrders = orderService.findAll(1,2);
+        Page<Order> foundOrders = orderService.findAll(1, 2);
 
-		assertThat(foundOrders).isEqualTo(shouldReturn);
-	}
-
+        assertThat(foundOrders).isEqualTo(shouldReturn);
+    }
 
     @Test
     public void findAllOrdersWhenNotFoundShouldReturnNull() {
@@ -154,11 +163,59 @@ public class OrderServiceTest {
 
         assertThat(foundOrders).isEqualTo(null);
     }
+    /*
+    @Test
+    public void editOrderShouldReturnOrder() {
 
+        Order shouldReturn = getDummyOrder(1, 2, 10, 1);
+        Order order = getDummyOrder(1, 2, 10, 1);
+
+        Mockito.when(orderRepository.save(order)).thenReturn(shouldReturn);
+
+        Order editedOrder = orderService.editOrder(order);
+
+        assertThat(editedOrder).isEqualTo(shouldReturn);
+    }
+
+    @Test
+    public void saveOrderShouldReturnOrder() {
+
+        Order shouldReturn = getDummyOrder(1, 2, 10, 1);
+        Order order = getDummyOrder(1, 2, 10, 1);
+        Principal principal = new KerberosPrincipal("test@test.com");
+
+        Mockito.when(orderRepository.save(order)).thenReturn(shouldReturn);
+
+        Order savedOrder = orderService.saveOrder(order, principal);
+
+        assertThat(savedOrder).isEqualTo(shouldReturn);
+    }
+
+    @Test
+    public void findOrdersByUserShouldReturnOrders() {
+
+        Page<Order> shouldReturn = new PageImpl<Order>(Arrays.asList(
+                getDummyOrder(1, 2, 1, 1),
+                getDummyOrder(2, 1, 2, 2),
+                getDummyOrder(3, 2, 1, 3)));
+        Customer customer = new Customer();
+        customer.setEmail("test@test.com");
+        Principal principal = new KerberosPrincipal("test@test.com");
+        PageRequest request = new PageRequest(1, 2, Sort.Direction.DESC, "id");
+
+        Mockito.when(orderRepository.findOrdersByCustomer(customer, request)).thenReturn(shouldReturn);
+
+        Page<Order> foundOrders = orderService.findOrdersByUser(1, 2, principal);
+
+        assertThat(foundOrders).isEqualTo(shouldReturn);
+    }
+    */
 
     public Order getDummyOrder() {
         Customer customer = new Customer();
         customer.setId(1L);
+        customer.setBalance(100D);
+
 
         Creditor creditor = new Creditor();
         creditor.setId(1L);
@@ -174,9 +231,28 @@ public class OrderServiceTest {
     public Order getDummyOrder(long customerId, long creditorId, double amount, long orderId) {
         Customer customer = new Customer();
         customer.setId(customerId);
+        customer.setEmail("test@test.com");
+        customer.setBalance(100D);
+        customer.setFirstName("Tester");
+        customer.setLastName("Testerovski");
+        customer.setActive(true);
+        customer.setEmbg("0000000000000");
+        customer.setPassword("test");
+        Role role = new Role();
+        role.setId(2L);
+        role.setName("NORMAL");
+        customer.setRole(role);
+        customer.setAddress("test");
+        customer.setTransactionNumber("0000000000000000");
+
 
         Creditor creditor = new Creditor();
         creditor.setId(creditorId);
+        creditor.setName("CreditorTest");
+        creditor.setImeNaBanka("Test");
+        creditor.setTransactionNumber("0000000000000001");
+        creditor.setAddress("Bitola");
+
 
         Order order = new Order();
         order.setId(orderId);
@@ -184,6 +260,9 @@ public class OrderServiceTest {
         order.setCreditor(creditor);
         order.setAmount(amount);
         order.setDescription("Test order");
+        order.setDate(Date.valueOf("2017-06-05"));
+        order.setType("Transfer");
+
         return order;
     }
 
