@@ -163,20 +163,20 @@ public class OrderServiceTest {
 
         assertThat(foundOrders).isEqualTo(null);
     }
-    /*
+
     @Test
     public void editOrderShouldReturnOrder() {
 
         Order shouldReturn = getDummyOrder(1, 2, 10, 1);
         Order order = getDummyOrder(1, 2, 10, 1);
-
+        Mockito.when(orderRepository.findOrderById(any(Long.class))).thenReturn(order);
         Mockito.when(orderRepository.save(order)).thenReturn(shouldReturn);
 
         Order editedOrder = orderService.editOrder(order);
 
         assertThat(editedOrder).isEqualTo(shouldReturn);
     }
-
+ /*
     @Test
     public void saveOrderShouldReturnOrder() {
 
