@@ -16,15 +16,10 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.*;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import sun.security.acl.PrincipalImpl;
 
-import javax.security.auth.kerberos.KerberosPrincipal;
-import java.security.Identity;
+
 import java.security.Principal;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -33,6 +28,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
 
 
 /**
@@ -176,15 +172,22 @@ public class OrderServiceTest {
 
         assertThat(editedOrder).isEqualTo(shouldReturn);
     }
- /*
+
     @Test
     public void saveOrderShouldReturnOrder() {
 
         Order shouldReturn = getDummyOrder(1, 2, 10, 1);
         Order order = getDummyOrder(1, 2, 10, 1);
-        Principal principal = new KerberosPrincipal("test@test.com");
+        Principal principal = new PrincipalImpl("test@test.com");
 
-        Mockito.when(orderRepository.save(order)).thenReturn(shouldReturn);
+        Mockito.when(orderRepository.findOrderById(any(Long.class))).thenReturn(order);
+        Mockito.when(customerRepository.findCustomerByEmail(any(String.class)))
+                .thenReturn(shouldReturn.getCustomer());
+        Mockito.when(customerRepository.findCustomerByTransactionNumber(any(String.class)))
+                .thenReturn(shouldReturn.getCustomer());
+        Mockito.when(creditorRepository.findCreditorByTransactionNumber(any(String.class)))
+                .thenReturn(shouldReturn.getCreditor());
+        Mockito.when(orderRepository.save(any(Order.class))).thenReturn(shouldReturn);
 
         Order savedOrder = orderService.saveOrder(order, principal);
 
@@ -199,17 +202,17 @@ public class OrderServiceTest {
                 getDummyOrder(2, 1, 2, 2),
                 getDummyOrder(3, 2, 1, 3)));
         Customer customer = new Customer();
-        customer.setEmail("test@test.com");
-        Principal principal = new KerberosPrincipal("test@test.com");
-        PageRequest request = new PageRequest(1, 2, Sort.Direction.DESC, "id");
+        Principal principal = new PrincipalImpl("test@test.com");
+        PageRequest request = new PageRequest(0, 2, Sort.Direction.DESC, "id");
 
+        Mockito.when(customerRepository.findCustomerByEmail("test@test.com")).thenReturn(customer);
         Mockito.when(orderRepository.findOrdersByCustomer(customer, request)).thenReturn(shouldReturn);
 
         Page<Order> foundOrders = orderService.findOrdersByUser(1, 2, principal);
 
         assertThat(foundOrders).isEqualTo(shouldReturn);
     }
-    */
+
 
     public Order getDummyOrder() {
         Customer customer = new Customer();
@@ -249,7 +252,7 @@ public class OrderServiceTest {
         Creditor creditor = new Creditor();
         creditor.setId(creditorId);
         creditor.setName("CreditorTest");
-        creditor.setImeNaBanka("Test");
+        creditor.setImeNaBanka("EBANK");
         creditor.setTransactionNumber("0000000000000001");
         creditor.setAddress("Bitola");
 
@@ -262,6 +265,7 @@ public class OrderServiceTest {
         order.setDescription("Test order");
         order.setDate(Date.valueOf("2017-06-05"));
         order.setType("Transfer");
+
 
         return order;
     }
