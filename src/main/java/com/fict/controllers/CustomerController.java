@@ -1,23 +1,14 @@
 package com.fict.controllers;
 
-import java.security.Principal;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-
-import javax.money.CurrencyUnit;
-
+import com.fict.entities.Customer;
+import com.fict.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
-import com.fict.entities.Customer;
-import com.fict.entities.Order;
-import com.fict.services.CreditorService;
-import com.fict.services.CustomerService;
-import com.fict.services.OrderService;
+import javax.money.CurrencyUnit;
+import java.security.Principal;
+import java.util.List;
 
 @RestController
 public class CustomerController {

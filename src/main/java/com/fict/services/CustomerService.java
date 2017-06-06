@@ -1,19 +1,10 @@
 package com.fict.services;
 
-import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
-
 import com.fict.entities.Customer;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 import javax.money.CurrencyUnit;
-
-/**
- * Created by stevo on 4/27/17.
- */
+import java.util.List;
 
 public interface CustomerService {
 

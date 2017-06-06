@@ -19,7 +19,6 @@ import org.springframework.data.domain.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import sun.security.acl.PrincipalImpl;
 
-
 import java.security.Principal;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -28,12 +27,8 @@ import java.util.List;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
 
 
-/**
- * Created by Dule on 31-May-17.
- */
 @RunWith(SpringRunner.class)
 public class OrderServiceTest {
 
@@ -63,28 +58,26 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void findOrderByIdShouldReturnOrder() {
+    public void findOrdersByCreditorShouldReturnOrders() {
 
-        long id = 1L;
-        Order shouldReturn = getDummyOrder();
-        Mockito.when(orderRepository.findOrderById(id)).thenReturn(shouldReturn);
+        List<Order> shouldReturn = new ArrayList<>();
+        Creditor creditor = getDummyCreditor();
+        Mockito.when(orderRepository.findOrdersByCreditor(creditor)).thenReturn(shouldReturn);
 
-        Order found = orderService.findOrderById(id);
+        List<Order> foundOrders = orderService.findOrdersByCreditor(creditor);
 
-        assertThat(found).isEqualTo(shouldReturn);
-
+        assertThat(foundOrders).isEqualTo(shouldReturn);
     }
 
     @Test
-    public void findOrderByIdWhenNotFoundShouldReturnNull() {
+    public void findOrdersByCreditorWhenNotFoundShouldReturnNull() {
 
-        long id = 1L;
-        Mockito.when(orderRepository.findOrderById(id)).thenReturn(null);
+        Creditor creditor = getDummyCreditor();
+        Mockito.when(orderRepository.findOrdersByCreditor(creditor)).thenReturn(null);
 
-        Order found = orderService.findOrderById(id);
+        List<Order> foundOrders = orderService.findOrdersByCreditor(creditor);
 
-        assertThat(found).isEqualTo(null);
-
+        assertThat(foundOrders).isEqualTo(null);
     }
 
     @Test
@@ -111,27 +104,51 @@ public class OrderServiceTest {
     }
 
     @Test
-    public void findOrdersByCreditorShouldReturnOrders() {
+    public void findOrderByIdShouldReturnOrder() {
 
-        List<Order> shouldReturn = new ArrayList<>();
-        Creditor creditor = getDummyCreditor();
-        Mockito.when(orderRepository.findOrdersByCreditor(creditor)).thenReturn(shouldReturn);
+        long id = 1L;
+        Order shouldReturn = getDummyOrder();
+        Mockito.when(orderRepository.findOrderById(id)).thenReturn(shouldReturn);
 
-        List<Order> foundOrders = orderService.findOrdersByCreditor(creditor);
+        Order found = orderService.findOrderById(id);
 
-        assertThat(foundOrders).isEqualTo(shouldReturn);
+        assertThat(found).isEqualTo(shouldReturn);
+
     }
 
     @Test
-    public void findOrdersByCreditorWhenNotFoundShouldReturnNull() {
+    public void findOrderByIdWhenNotFoundShouldReturnNull() {
 
-        Creditor creditor = getDummyCreditor();
-        Mockito.when(orderRepository.findOrdersByCreditor(creditor)).thenReturn(null);
+        long id = 1L;
+        Mockito.when(orderRepository.findOrderById(id)).thenReturn(null);
 
-        List<Order> foundOrders = orderService.findOrdersByCreditor(creditor);
+        Order found = orderService.findOrderById(id);
 
-        assertThat(foundOrders).isEqualTo(null);
+        assertThat(found).isEqualTo(null);
+
     }
+
+	@Test
+	public void saveOrderShouldReturnOrder() {
+
+		Order shouldReturn = getDummyOrder(1, 2, 10, 1);
+		Order order = getDummyOrder(1, 2, 10, 1);
+		Principal principal = new PrincipalImpl("test@test.com");
+
+		Mockito.when(orderRepository.findOrderById(any(Long.class))).thenReturn(order);
+		Mockito.when(customerRepository.findCustomerByEmail(any(String.class)))
+				.thenReturn(shouldReturn.getCustomer());
+		Mockito.when(customerRepository.findCustomerByTransactionNumber(any(String.class)))
+				.thenReturn(shouldReturn.getCustomer());
+		Mockito.when(creditorRepository.findCreditorByTransactionNumber(any(String.class)))
+				.thenReturn(shouldReturn.getCreditor());
+		Mockito.when(orderRepository.save(any(Order.class))).thenReturn(shouldReturn);
+
+		Order savedOrder = orderService.saveOrder(order, principal);
+
+		assertThat(savedOrder).isEqualTo(shouldReturn);
+
+	}
 
     @Test
     public void findAllOrdersShouldReturnOrders() {
@@ -147,6 +164,7 @@ public class OrderServiceTest {
         Page<Order> foundOrders = orderService.findAll(1, 2);
 
         assertThat(foundOrders).isEqualTo(shouldReturn);
+
     }
 
     @Test
@@ -158,6 +176,7 @@ public class OrderServiceTest {
         Page<Order> foundOrders = orderService.findAll(1, 5);
 
         assertThat(foundOrders).isEqualTo(null);
+
     }
 
     @Test
@@ -171,27 +190,7 @@ public class OrderServiceTest {
         Order editedOrder = orderService.editOrder(order);
 
         assertThat(editedOrder).isEqualTo(shouldReturn);
-    }
 
-    @Test
-    public void saveOrderShouldReturnOrder() {
-
-        Order shouldReturn = getDummyOrder(1, 2, 10, 1);
-        Order order = getDummyOrder(1, 2, 10, 1);
-        Principal principal = new PrincipalImpl("test@test.com");
-
-        Mockito.when(orderRepository.findOrderById(any(Long.class))).thenReturn(order);
-        Mockito.when(customerRepository.findCustomerByEmail(any(String.class)))
-                .thenReturn(shouldReturn.getCustomer());
-        Mockito.when(customerRepository.findCustomerByTransactionNumber(any(String.class)))
-                .thenReturn(shouldReturn.getCustomer());
-        Mockito.when(creditorRepository.findCreditorByTransactionNumber(any(String.class)))
-                .thenReturn(shouldReturn.getCreditor());
-        Mockito.when(orderRepository.save(any(Order.class))).thenReturn(shouldReturn);
-
-        Order savedOrder = orderService.saveOrder(order, principal);
-
-        assertThat(savedOrder).isEqualTo(shouldReturn);
     }
 
     @Test
@@ -211,6 +210,7 @@ public class OrderServiceTest {
         Page<Order> foundOrders = orderService.findOrdersByUser(1, 2, principal);
 
         assertThat(foundOrders).isEqualTo(shouldReturn);
+
     }
 
 

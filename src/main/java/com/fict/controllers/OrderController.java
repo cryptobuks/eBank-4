@@ -1,19 +1,12 @@
 package com.fict.controllers;
 
-import java.security.Principal;
-import java.util.Date;
-import java.util.List;
-
+import com.fict.entities.Order;
+import com.fict.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import com.fict.entities.Creditor;
-import com.fict.entities.Customer;
-import com.fict.entities.Order;
-import com.fict.services.CreditorService;
-import com.fict.services.CustomerService;
-import com.fict.services.OrderService;
+import java.security.Principal;
 
 @RestController
 public class OrderController {

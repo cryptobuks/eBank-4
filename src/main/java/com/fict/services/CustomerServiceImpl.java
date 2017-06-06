@@ -4,34 +4,25 @@ import com.fict.entities.Customer;
 import com.fict.entities.Role;
 import com.fict.repository.CustomerRepository;
 import com.fict.repository.RoleRepository;
-
 import org.apache.commons.lang3.RandomStringUtils;
-import org.hibernate.hql.internal.ast.tree.BooleanLiteralNode;
 import org.javamoney.moneta.Money;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-
-import javax.money.CurrencyQuery;
 import javax.money.CurrencyUnit;
 import javax.money.MonetaryAmount;
 import javax.money.MonetaryCurrencies;
 import javax.money.convert.CurrencyConversion;
 import javax.money.convert.MonetaryConversions;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-/**
- * Created by stevo on 4/30/17.
- */
 @Service
 public class CustomerServiceImpl implements CustomerService {
 

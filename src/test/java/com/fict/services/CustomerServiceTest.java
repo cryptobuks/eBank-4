@@ -1,11 +1,9 @@
 package com.fict.services;
 
 import com.fict.entities.Customer;
-import com.fict.entities.Order;
 import com.fict.entities.Role;
 import com.fict.repository.CustomerRepository;
 import com.fict.repository.RoleRepository;
-import org.javamoney.moneta.Money;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,10 +17,7 @@ import org.springframework.data.domain.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.money.CurrencyUnit;
-import javax.money.MonetaryAmount;
 import javax.money.MonetaryCurrencies;
-import javax.money.convert.CurrencyConversion;
-import javax.money.convert.MonetaryConversions;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -30,9 +25,6 @@ import java.util.Locale;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-/**
- * Created by stevo on 5/29/17.
- */
 @RunWith(SpringRunner.class)
 public class CustomerServiceTest {
 

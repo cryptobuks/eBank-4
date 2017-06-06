@@ -15,9 +15,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 
-/**
- * Created by Dule on 31-May-17.
- */
 @RunWith(SpringRunner.class)
 public class CreditorServiceTest {
 

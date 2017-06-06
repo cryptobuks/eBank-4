@@ -13,9 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Arrays;
 
-/**
- * Created by stevo on 6/2/17.
- */
 @TestConfiguration
 public class TestSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -26,7 +23,7 @@ public class TestSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
 				if (s.equals("kondinskis@gmail.com")) {
 					GrantedAuthority authority = new SimpleGrantedAuthority("NORMAL");
-					UserDetails userDetails = (UserDetails) new User(s, "123", Arrays.asList(authority));
+					UserDetails userDetails = new User(s, "123", Arrays.asList(authority));
 					return userDetails;
 				} else {
 					throw new UsernameNotFoundException("Username not found!");
