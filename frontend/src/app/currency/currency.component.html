@@ -13,7 +13,7 @@
 		        <input type="number" (keyup)="convert()" [(ngModel)]="value" name="value" class="form-control input-sm" />
 		      </div>
 
-		      <div class="col-xs-4">
+		      <div class="col-xs-5">
 		        <select [(ngModel)]="from" (change)="convert()" name="from" class="form-control input-sm">
 		          <option *ngFor="let currency of currencies">{{currency}}</option>
 		        </select>
@@ -27,7 +27,7 @@
 		      <div class="col-sm-6">
 		        <input type="number" [(ngModel)]="converted" name="converted" class="form-control input-sm" />
 		      </div>
-		      <div class="col-xs-4">
+		      <div class="col-xs-5">
 		        <select [(ngModel)]="to" name="to" (change)="convert()" class="form-control input-sm">
 		          <option *ngFor="let currency of currencies">{{currency}}</option>
 		        </select>

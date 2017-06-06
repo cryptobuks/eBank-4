@@ -25,7 +25,7 @@ export class OrderDetailComponent implements OnInit {
 
   constructor(private orderService: OrderService, private authService: AuthService, private router: Router) {
     this.page = 1;
-    this.limit = 3;
+    this.limit = 10;
   }
 
   getOrders() {

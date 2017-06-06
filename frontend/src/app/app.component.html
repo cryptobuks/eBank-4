@@ -23,8 +23,8 @@
 				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/order/history">Orders</a></li>
 				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/order/make">Make order</a></li>
 				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/currency">Currency</a></li>
-				<li routerLinkActive="active" *ngIf="!authService.isLoggedIn"><a routerLink="/login">Login</a></li>
-				<li routerLinkActive="active" *ngIf="!authService.isLoggedIn"><a routerLink="/register">Register</a></li>
+				<li routerLinkActive="active" *ngIf="!authService.isLoggedIn"><a routerLink="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+				<li routerLinkActive="active" *ngIf="!authService.isLoggedIn"><a routerLink="/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
 				<li routerLinkActive="active" *ngIf="authService.isLoggedIn && (authService.role == 'ADMIN')"><a routerLink="/admin/users">Users</a></li>
 				<li routerLinkActive="active" *ngIf="authService.isLoggedIn && (authService.role == 'ADMIN')"><a routerLink="/admin/orders">All orders</a></li>
 				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a class="pointer" (click)="logout()">Logout</a></li>

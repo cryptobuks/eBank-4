@@ -21,7 +21,7 @@ export class AdminOrdersComponent implements OnInit {
   totalPages: number[];
 
   constructor(private orderService: OrderService) {
-    this.limit = 3;
+    this.limit = 10;
     this.page = 1;
   }
 
