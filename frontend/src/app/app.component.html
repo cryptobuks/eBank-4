@@ -1,12 +1,3 @@
-<!--
-<customer-detail [customer]="customer"></customer-detail>
-<hr />
-<creditor-detail></creditor-detail><hr />
-<order-detail></order-detail>
-<hr /> -->
-
-<!-- <button type="submit" (click)="logout()" [hidden]="!loggedIn">logout</button> -->
-
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -19,15 +10,17 @@
     </div>
     <div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav">
-				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/customer">Customer</a></li>
-				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/order/history">Orders</a></li>
-				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/order/make">Make order</a></li>
-				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/currency">Currency</a></li>
+				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/customer"><span class="glyphicon glyphicon-user"></span> Customer</a></li>
+				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/order/history"><span class="fa fa-credit-card"></span> Orders</a></li>
+				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/order/make"><span class="glyphicon glyphicon-transfer"></span> Make order</a></li>
+				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a routerLink="/currency"><span class="fa fa-dollar"></span> Currency</a></li>
 				<li routerLinkActive="active" *ngIf="!authService.isLoggedIn"><a routerLink="/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-				<li routerLinkActive="active" *ngIf="!authService.isLoggedIn"><a routerLink="/register"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-				<li routerLinkActive="active" *ngIf="authService.isLoggedIn && (authService.role == 'ADMIN')"><a routerLink="/admin/users">Users</a></li>
-				<li routerLinkActive="active" *ngIf="authService.isLoggedIn && (authService.role == 'ADMIN')"><a routerLink="/admin/orders">All orders</a></li>
-				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a class="pointer" (click)="logout()">Logout</a></li>
+				<li routerLinkActive="active" *ngIf="!authService.isLoggedIn"><a routerLink="/register"><span class="fa fa-user-plus"></span> Register</a></li>
+				<li routerLinkActive="active" *ngIf="authService.isLoggedIn && (authService.role == 'ADMIN')"><a routerLink="/admin/users"><span class="fa fa-users"></span> All customers</a></li>
+				<li routerLinkActive="active" *ngIf="authService.isLoggedIn && (authService.role == 'ADMIN')"><a routerLink="/admin/orders"><span class="fa fa-credit-card"></span> All orders</a></li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li routerLinkActive="active" *ngIf="authService.isLoggedIn"><a class="pointer" (click)="logout()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
 			</ul>
 		</div>
   </div>

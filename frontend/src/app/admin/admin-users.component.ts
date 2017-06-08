@@ -22,7 +22,7 @@ export class AdminUsersComponent implements OnInit {
 
   constructor(private customerService: CustomerService) {
     this.page = 1;
-    this.limit = 10;
+    this.limit = 7;
   }
 
   ngOnInit() {
